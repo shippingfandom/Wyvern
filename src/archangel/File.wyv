@@ -1,0 +1,396 @@
+enum FilePermission {
+    Read    = 114,
+    Write   = 119,
+    Execute = 120
+}
+
+enum PermissionUser {
+    Group = 103,
+    User  = 117,
+    Guest = 111
+}
+
+/*
+@author H3xad3cimal
+@description Archangel File class used for better File interaction while using Wyvern
+*/
+class File {
+    private let handle: file;
+    private let lastError: string;
+    private let shell: shell;
+
+    public static const INVALID_FILE: File = new File(null, null);
+
+    /*
+    @description Constructor
+    @param f GreyHack API file object
+    */
+    private fn File(f: file, useShell: shell) {
+        self.handle = f;
+        self.shell = useShell;
+        
+        // Brakes so people don't use files without check with IsValid()
+        if !self.IsValid() {
+            let rawObject = unsafe_cast< string<any> >(self);
+            let rawClass  = cast< string<any> >(rawObject["__isa"]);
+
+            let whitelist = [
+                "handle",
+                "IsValid"
+            ];
+
+            foreach let index in rawClass.indexes {
+                if whitelist.indexOf(index) != null continue;
+
+                rawObject[index] = self.INTERNAL_BREAK;
+            }
+        }
+    }
+
+    private fn INTERNAL_BREAK() {
+        exit("[Archangel File] You attempted to use a Archangel File Method on a Invalid File. Please check files with .IsValid() before using them.");
+    }
+
+    /*
+    @description Gets the file name
+    @return File name as a string
+    */
+    public fn GetName() -> string {
+        return self.handle.name();
+    }
+
+    /*
+    @description Gets the file path
+    @return File path as a string
+    */
+    public fn GetPath() -> string {
+        return self.handle.path();
+    }
+
+    /*
+    @description Gets the file size
+    @return File size
+    */
+    public fn GetSize() -> number {
+        return cast<number>(self.handle.size());
+    }
+
+    /*
+    @description Gets the content, returns null if no read permission
+    @return Content as a string
+    */
+    public fn GetContent() -> string {
+        if self.HasPermission(FilePermission.Read)
+            return null;
+        return self.handle.get_content();
+    }
+
+    /*
+    @description Changes the contents of the file, returns false if no write permission
+    @param content Content to set of the file
+    @return True if successful, false if no write permission
+    */
+    public fn SetContent(content: string) -> bool {
+        if self.HasPermission(FilePermission.Write)
+            return false;
+        
+        self.handle.set_content(content);
+        return true;
+    }
+
+    /*
+    @description Changes the owner of the file
+    @param owner Owner to set
+    @param recursive Change owner of all files, this is for folders
+    @return True if successful
+    */
+    public fn SetOwner(owner: string, recursive: bool = true) -> bool {
+        return self.handle.set_owner(owner, recursive) == null;
+    }
+
+    /*
+    @description Changes the group of the file
+    @param group Group to set
+    @param recursive Change Group of all files, this is for folders
+    @return True if successful
+    */
+    public fn SetGroup(group: string, recursive: bool = true) -> bool {
+        return self.handle.set_group(group, recursive) == null;
+    }
+
+    /*
+    @description Checks if the file is a binary
+    @return True if it is a binary
+    */
+    public fn IsBinary() -> bool {
+        return self.handle.is_binary();
+    }
+
+    /*
+    @description Gets the owner of the file
+    @return Owner of the file
+    */
+    public fn GetOwner() -> string {
+        return self.handle.owner();
+    }
+
+    /*
+    @description Returns the parent folder (If the file is "/" it return INVALID_FILE)
+    @return File object of parent folder
+    */
+    public fn GetParent() -> File {
+        if self.GetPath() == "/"
+            return File.INVALID_FILE;
+        
+        return new File(self.handle.parent(), self.shell);
+    }
+
+    /*
+    @description Gets the file permissions
+    @return File permissions as a string
+    */
+    public fn GetPermissions() -> string {
+        return self.handle.permissions();
+    }
+
+    /*
+    @description Gets the current permissions from the shell used
+    @return Array of FilePermission
+    */
+    public fn GetCurrentPermissions() -> FilePermission[] {
+        let permissions: FilePermission[] = [];
+        
+        // Casting nonsense
+        foreach let permission in cast< FilePermission[] > ( globals["FilePermission"] ).values {
+            if self.HasPermission(permission)
+                permissions.push(permission);
+        }
+
+        return permissions;
+    }
+
+    /*
+    @description Gets the folders if it's a folder
+    @return Files as a array but null if it's not a folder
+    */
+    public fn GetFiles() -> File[] {
+        if !self.IsFolder()
+            return null;
+        
+        let files: File[] = [];
+        foreach let file in self.handle.get_files() {
+            files.push(new File(file, self.shell));
+        }
+        return files;
+    }
+
+    /*
+    @description Gets the folders if it's a folder
+    @return Folders as a array but null if it's not a folder
+    */
+    public fn GetFolders() -> File[] {
+        if !self.IsFolder()
+            return null;
+        
+        let folders: File[] = [];
+        foreach let folder in self.handle.get_folders() {
+            folders.push(new File(folder, self.shell));
+        }
+        return folders;
+    }
+
+    /*
+    @description Checks if the file has the permission
+    @param permission Permission to check
+    @return True if it has the permission
+    */
+    public fn HasPermission(permission: FilePermission) -> bool {
+        return self.handle.has_permission(char(cast<number>(permission)));
+    }
+
+    /*
+    @description Checks if the file has multiple different permission
+    @param permissions Permissions to check
+    @return True if it has the permissions
+    */
+    public fn HasPermissions(permissions: FilePermission[]) -> bool {
+        foreach let permission in permissions {
+            if !self.HasPermission(permission) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /*
+    @description Changes the permissions with the passed parameters
+    @param userTypes The types of users to change
+    @param addPermissions Set to true it will add the permissions, false it will remove them
+    @param permissions The permission to change
+    @param recursive Determines if it change will affect all files if it's folder. True by default
+    @return True if the changes were successful, false otherwise
+    */
+    public fn ChangePermissions(
+        userTypes:      PermissionUser[],
+        addPermissions: bool,
+        permissions:    FilePermission[],
+        recursive:      bool = true
+    ) -> bool {
+        let chmodQuery: string[] = [];
+        foreach let userType in userTypes {
+            let c = char(cast<number>(userType));
+            if chmodQuery.indexOf(c) != null {
+                return false;
+            }
+            chmodQuery.push(c);
+        }
+
+        if addPermissions {
+            chmodQuery.push("+");
+        } else {
+            chmodQuery.push("-");
+        }
+
+        foreach let permission in permissions {
+            chmodQuery.push(char(cast<number>(permission)));
+        }
+
+        let chmod  = chmodQuery.join("");
+        let result = self.handle.chmod(chmod, recursive);
+        if result == "Wrong format." {
+            exit("[File->ChangePermissions( " +
+                    str(userTypes)      + ", " +
+                    str(addPermissions) + ", " +
+                    str(permissions)    + ", " +
+                    str(recursive)      +
+                    " )] Generated an incorrect chmod query: " + chmod);
+        }
+
+        return result == "";
+    }
+
+    /*
+    @description Checks if it's an actual file
+    @return Returns true if it is an valid file
+    */
+    public fn IsValid() -> bool {
+        return self.handle != null;
+    }
+
+    /*
+    @description Checks if it's a folder
+    @return Returns true if it is a folder
+    */
+    public fn IsFolder() -> bool {
+        return self.handle.is_folder();
+    }
+
+    /*
+    @description Copies the file to a string ppath
+    @param path Path to copy to
+    @param name Name to copy as, default is the current name
+    @return Returns the new file
+    */
+    public fn CopyToPath(path: string, name: string = null) -> File {
+        return self.CopyToFolder(File.Open(path, self.shell), name);
+    }
+
+    /*
+    @description Moves the file to a string path
+    @param path Path to move to
+    @param name Name to move as, default is the current name
+    @return Returns the moved file
+    */
+    public fn MoveToPath(path: string, name: string = null) -> File {
+        return self.MoveToFolder(File.Open(path, self.shell), name);
+    }
+
+    /*
+    @description Copies the file to a folder
+    @param folder Folder to copy to
+    @param name Name to copy as, default is the current name
+    @return Returns the new file
+    */
+    public fn CopyToFolder(folder: File, name: string = null) -> File {
+        if (!folder.IsValid()) || (!folder.IsFolder()) {
+            return File.INVALID_FILE;
+        }
+
+        if !self.HasPermission(FilePermission.Read) {
+            return File.INVALID_FILE;
+        }
+
+        if !folder.HasPermission(FilePermission.Write) {
+            return File.INVALID_FILE;
+        }
+
+        let nameToUse: string;
+        if name == null {
+            nameToUse = self.GetName();
+        } else {
+            nameToUse = name;
+        }
+        
+        self.handle.copy(folder.GetPath(), nameToUse);
+        return File.Open(folder.GetPath() + "/" + nameToUse, self.shell);
+    }
+
+    /*
+    @description Moves the file to a folder
+    @param folder Folder to move to
+    @param name Name to move as, default is the current name
+    @return Returns the moved file
+    */
+    public fn MoveToFolder(folder: File, name: string = null) -> File {
+        if (!folder.IsValid()) || (!folder.IsFolder()) {
+            return File.INVALID_FILE;
+        }
+
+        if !self.HasPermission(FilePermission.Read) {
+            return File.INVALID_FILE;
+        }
+
+        if !folder.HasPermission(FilePermission.Write) {
+            return File.INVALID_FILE;
+        }
+
+        let nameToUse: string;
+        if name == null {
+            nameToUse = self.GetName();
+        } else {
+            nameToUse = name;
+        }
+
+        self.handle.move(folder.GetPath(), nameToUse);
+        return File.Open(folder.GetPath() + "/" + nameToUse, self.shell);
+    }
+
+    public fn GetFile() -> file {
+        return self.handle;
+    }
+
+    /*
+    @description Creates a Archangel File object with the path passed
+    @param path Path to open file
+    @param shell Shell to use to get the file
+    @return Returns the Archangel File object. Recommended to check using .IsValid()
+    */
+    public static fn Open(path: string, useShell: shell = null) -> File {
+        let s = useShell;
+        if s == null
+            s = get_shell();
+
+        let f = s.host_computer().File(path);
+        if f == null
+            f = s.host_computer().File(current_path + "/" + path);
+
+        return new File(f, s);
+    }
+}
+
+let file = File.Open("/home/h3xad3cimal/archangel/File.wyv");
+
+let result = file.CopyToPath("/home/h3xad3cimal/RAPTOR");
+
+print(result);

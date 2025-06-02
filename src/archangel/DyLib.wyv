@@ -1,0 +1,16 @@
+struct DynamicLibrary {
+    let path: string;
+
+    let handle: file;
+    let entrypoints: string[];
+}
+
+fn dyload(path: string) -> DynamicLibrary {
+    let handle = get_shell().host_computer().File(path);
+    if handle == null return null;
+
+    return DynamicLibrary {
+        path: path,
+        handle: handle,
+    }
+}

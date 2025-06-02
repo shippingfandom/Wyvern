@@ -1,0 +1,333 @@
+/*
+    NOTE:
+        This does not import all methods in Wyvern
+        I'm too lazy for that I only import the vitals
+*/
+msimport "/lib/wyvern/namespace" {
+    let Wyvern: string<any>;
+}
+
+msimport "/lib/wyvern/utils" {
+    class TextSpan {
+        private fn TextSpan();
+
+        public let Start: number;
+        public let Length: number;
+        public let End: number;
+
+        public static fn New(start: number, length: number) -> TextSpan;
+        public static fn FromBounds(start: number, end: number) -> TextSpan;
+
+        public fn Combine(span: TextSpan) -> TextSpan;
+    }
+
+    class TextLine {
+        public let Text; // NOTE: Please Convert this to a "SourceText" class when using
+        public let Start: number;
+        public let Length: number;
+        public let End: number;
+        public let LengthIncludingLineBreak: number;
+        public let Span: TextSpan;
+        public let SpanIncludingLineBreak: TextSpan;
+
+        public fn ToString() -> string;
+        
+        public static fn New(text: any, start: number, length: number, LengthIncludingLineBreak: number) -> TextLine;
+    }
+
+    class SourceText {
+        private fn SourceText();
+
+        public let File: file;
+        public let Length: number;
+
+        public fn GetLineIndex(position: number) -> number;
+        public fn ToString(startOrSpan: any = null, length: number = null);
+
+        public static fn From(text: string, file: file = null) -> SourceText;
+    }
+}
+
+msimport "/lib/wyvern/diagnostics" {
+    enum DiagnosticCode {
+        UNKOWN_TOKEN,
+        INVALID_NUMBER,
+        DOUBLE_DOT_FLOAT,
+        UNTERMINATED_STRING,
+        UNKOWN_ESCAPE_CHAR,
+        UNTERMINATED_COMMENT,
+        UNDEFINED_UNARY_OPERATOR,
+        UNDEFINED_BINARY_OPERATOR,
+        UNDEFINED_VARIABLE,
+        UNEXPECTED_TOKEN,
+        VARIABLE_ALREADY_DECLARED,
+        CANNOT_CONVERT_TYPE,
+        CANNOT_CONVERT_TYPE_IMPLICITLY,
+        CANNOT_ASSIGN,
+        UNDEFINED_FUNCTION,
+        WRONG_ARGUMENT_COUNT,
+        WRONG_ARGUMENT_TYPE,
+        EXPRESSION_MUST_HAVE_VALUE,
+        UNDEFINED_TYPE,
+        PARAMETER_ALREADY_DECLARED,
+        BREAK_OUTSIDE_LOOP,
+        CONTINUE_OUTSIDE_LOOP,
+        INCOMPATIBLE_TYPE,
+        INVALID_RETURN_STATEMENT,
+        MISSING_RETURN_EXPRESSION,
+        INVALID_RETURN_EXPRESSION,
+        UNEXPECTED_TYPE,
+        WRONG_INDEX_TYPE,
+        UNINDEXABLE_TYPE,
+        COULDNT_FIND_METHOD,
+        COULDNT_FIND_PROPERTY,
+        COULDNT_FIND_EXTENSION_CLASS,
+        UNDEFINED_CLASS,
+        SYMBOL_ISNT_A_FUNCTION,
+        SYMBOL_ISNT_A_CLASS,
+        SYMBOL_ISNT_A_CONTRACT,
+        MEMBER_CANT_HAVE_BODY,
+        UNDEFINED_SYMBOL,
+        MISSING_CONTRACT_REQUIREMENT,
+        SYMBOL_ISNT_PUBLIC,
+        ISNT_MEMBER,
+        VIRTUAL_WITH_BODY,
+        FIELD_DOESNT_HAVE_SAME_MODIFIERS,
+        CANNOT_OVERRIDE_AND_VIRTUAL,
+        CANNOT_PUBLIC_AND_PRIVATE,
+        CANNOT_REPEAT_MODIFIER,
+        ATTEMPTED_OVERRIDE_WRONG_FIELD,
+        OVERRIDE_DOESNT_HAVE_SAME_TYPE,
+        OVERRIDE_DOESNT_HAVE_SAME_PARAMETERS,
+        OVERRIDE_ISNT_SAME_WRITE,
+        VIRTUAL_SYMBOL_EXISTS,
+        CANNOT_OVERRIDE_NONVIRTUAL_SYMBOL,
+        CAN_ONLY_USE_SYNTAX,
+        ENUM_DOESNT_HAVE_MEMBER,
+        UNABLE_TO_LOOP,
+        NO_BODY_ALLOWED_IN_MS_IMPORT,
+        NO_INIT_ALLOWED_IN_MS_IMPORT,
+        CANNOT_HAVE_MULTIPLE_DEFAULTS,
+        CASE_MUST_HAVE_CONSTANT_VALUE,
+        CANT_HAVE_MULTIPLE_SAME_CASES,
+
+        TEMP_DEBUG = -1
+    }
+
+    class Diagnostic {
+        public let Message: string;
+        public let Code: DiagnosticCode;
+        public let Span: TextSpan;
+        public let SourceText: SourceText;
+    }
+
+    class DiagnosticBag {
+        public let Length: number;
+        
+        public fn ToArray() -> Diagnostic[];
+    }
+}
+
+msimport "/lib/wyvern/symbols" {
+    enum SymbolKind {
+        Variable,
+        Type,
+        Function,
+        Builtin,
+        Parameter,
+        Class,
+        Member,
+        Array,
+        Map,
+        Contract,
+        Enum,
+        EnumMember,
+        Temp,
+
+        GlobalVariable,
+        LocalVariable,
+        BuiltinVariable
+    }
+
+    class Symbol {
+        public let Name: string;
+        public let Kind: SymbolKind;
+
+        public fn ToString() -> string;
+        public fn Compare(symbol: Symbol) -> bool;
+    }
+
+    class VariableSymbol : Symbol {
+        public let IsReadOnly: bool;
+        public let Type: Symbol;
+        public let Constant: any;
+    }
+
+    class GlobalVariableSymbol : VariableSymbol {
+    }
+
+    class LocalVariableSymbol : VariableSymbol {
+    }
+
+    class BuiltinVariableSymbol : VariableSymbol {
+        public fn Callback() -> any;
+    }
+
+    class ParameterSymbol : LocalVariableSymbol {
+        public let IsOptional: bool;
+        public let DefaultValue: any;
+    }
+
+    class FunctionSymbol : Symbol {
+        public let Parameters: ParameterSymbol[];
+        public let Type: Symbol;
+    }
+
+    class BuiltinFunctionSymbol : FunctionSymbol {
+        public fn Callback() -> any;
+    }
+
+    class TypeSymbol : Symbol {
+        public let Methods: string<FunctionSymbol>;
+        public let Properties: string<VariableSymbol>;
+    }
+
+    var TypeSymbols: string<TypeSymbol>;
+
+    class ArraySymbol : Symbol {
+        public let Type: Symbol;
+    }
+
+    class MapSymbol : Symbol {
+        public let KeyType: Symbol;
+        public let ValueType: Symbol;
+    }
+
+    // Change to struct later
+    class Modifier {
+        public let IsPublic: bool;
+        public let IsPrivate: bool;
+        public let IsStatic: bool;
+        public let IsOverride: bool;
+        public let IsVirtual: bool;
+    }
+
+    class MemberSymbol : Symbol {
+        public let Modifiers: Modifier;
+        public let Symbol: Symbol;
+    }
+
+    class ContractSymbol : Symbol {
+        public let Contracts: ContractSymbol[];
+        public let Members: Symbol[];
+    }
+
+    class ClassSymbol : Symbol {
+        public let Super: ClassSymbol;
+        public let Contracts: ContractSymbol[];
+        public let Statics: Symbol[];
+        public let Members: Symbol[];
+
+        public fn IsAncestor(classSymbol: ClassSymbol) -> bool;
+        public fn HasContract(_contract: ContractSymbol) -> bool;
+    }
+
+    class TempSymbol : Symbol {
+    }
+
+    class EnumMemberSymbol : Symbol {
+        public let Enum: Symbol;
+        public let Type: TypeSymbol;
+        public let Constant: number;
+    }
+
+    class EnumSymbol : Symbol {
+        public let Members: EnumMemberSymbol[];
+        
+        public fn GetMember(name: string) -> EnumMemberSymbol;
+    }
+}
+
+msimport "/lib/wyvern/syntax" {
+    class SyntaxTree {
+        public let Diagnostics: Diagnostic[];
+        public let Text: SourceText;
+        public let Root: any;
+
+        public static fn Parse(text: string) -> SyntaxTree;
+        public static fn ParseFile(file: file) -> SyntaxTree;
+    }
+}
+
+msimport "/lib/wyvern/ast" {
+    class BoundGlobalScope {
+        public let Previous: BoundGlobalScope;
+        public let Diagnostics: DiagnosticBag;
+        public let Text: SourceText;
+    }
+}
+
+msimport "/lib/wyvern/builtins" {}
+msimport "/lib/wyvern/api" {
+    class Compilation {
+        public static fn New(syntax: SyntaxTree) -> Compilation;
+        public static fn New2(previous: BoundGlobalScope, syntax: SyntaxTree) -> Compilation;
+
+        public let GlobalScope: BoundGlobalScope;
+        public fn ContinueWith(syntaxTree: SyntaxTree) -> Compilation;
+        public fn EmitTree(out: any<any>, isConsole: bool=false);
+
+        // only when compiler
+        public fn Compile() -> any;
+    }
+}
+
+msimport "/lib/wyvern/compiler" {
+    class CompilationResults {
+        public let Diagnostics: Diagnostic[];
+        public let Code: string;
+    }
+}
+
+// Expand Members from wyvern-lang to expose to Wyvern
+foreach let m in Wyvern.indexes {
+    globals[m] = Wyvern[m];
+}
+
+
+
+
+
+
+if params.len != 1 exit("Please pass a file");
+const filePath = params[0];
+
+let file = get_shell().host_computer().File(filePath);
+
+if file == null {
+    file = get_shell().host_computer().File(current_path + "/" + filePath);
+    if file == null exit("File not found");
+}
+
+let syntaxTree = SyntaxTree.ParseFile(file);
+
+let diagnostics = syntaxTree.Diagnostics;
+if diagnostics.len > 0 {
+    foreach let diagnostic in diagnostics {
+        print(diagnostic.Message);
+    }
+    exit();
+}
+
+let compilation = Compilation.New(syntaxTree);
+let result: CompilationResults = compilation.Compile();
+
+diagnostics = result.Diagnostics;
+if diagnostics.len > 0 {
+    foreach let diagnostic in diagnostics {
+        print(diagnostic.Message);
+    }
+    exit();
+}
+
+print(result.Code);

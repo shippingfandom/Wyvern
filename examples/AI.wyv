@@ -1,0 +1,151 @@
+const POPULATION_SIZE = 25;
+const AMOUNT_OF_MOVES = 100;
+const MUTATION_RATE = 0.01;
+
+const SCREEN_WIDTH = 100;
+const SCREEN_HEIGHT = 50;
+
+class Vector {
+    public let x: number;
+    public let y: number;
+    
+    public fn Vector(x: number = 0, y: number = 0) {
+        self.x = x;
+        self.y = y;
+    }
+
+    public fn add(v: Vector) {
+        self.x = self.x + v.x;
+        self.y = self.y + v.y;
+    }
+
+    public fn mag() -> number{
+        let x = self.x;
+        let y = self.y;
+
+        return sqrt(x*x + y*y);
+    }
+    
+    public fn normalize() {
+        let m = self.mag();
+        if m > 0 {
+            self.x = self.x / m;
+            self.y = self.y / m;
+        }
+    }
+
+    public fn limit(high: number) {
+        if self.mag() > high {
+            self.normalize();
+            self.x = self.x * high;
+            self.y = self.y * high;
+        }
+    }
+
+    public static fn FromAngle(angle: number) -> Vector {
+        let v = new Vector();
+        v.x = cos(angle);
+        v.y = sin(angle);
+        return v;
+    }
+}
+
+let screen: string[] = [];
+fn DrawScreen() {
+    let f: string[] = [];
+    for let i = 1; i <= SCREEN_HEIGHT; i=i+1 {
+        f.push(cast<string[]>(slice(screen, SCREEN_WIDTH*(i-1), SCREEN_WIDTH*i)).join(""));
+    }
+    
+    print(f.join(char(10)) + char(0), true);
+}
+
+class Brain {
+    public let directions: Vector[];
+    public let step: number = 0;
+
+    public fn Brain(size: number) {
+        self.directions = [];
+        for let i = 1; i<= size; i=i+1 {
+            self.directions.push(new Vector());
+        }
+        
+        self.Randomize();
+    }
+
+    public fn Randomize() {
+        for let i = 0; i < self.directions.len; i=i+1 {
+            let randomAngle = rnd()*pi*2;
+            self.directions[i] = Vector.FromAngle(randomAngle);
+        }
+    }
+}
+
+class Dot {
+    public let position: Vector;
+    public let velocity: Vector;
+    public let acceleration: Vector;
+    public let brain: Brain;
+    public let dead: bool = false;
+
+    public fn Dot() {
+        self.brain = new Brain(AMOUNT_OF_MOVES);
+
+        self.position     = new Vector(SCREEN_WIDTH/2, SCREEN_HEIGHT/2);
+        self.velocity     = new Vector(0, 0);
+        self.acceleration = new Vector(0, 0);
+    }
+
+    public fn Show() {
+        screen[self.position.y*SCREEN_WIDTH+self.position.x] = "#";
+    }
+
+    public fn Move() {
+        if (self.brain.directions.len > self.brain.step) {
+            self.acceleration = self.brain.directions[self.brain.step];
+            self.brain.step   = self.brain.step + 1;
+        } else {
+            self.dead = true;
+        }
+
+        self.velocity.add(self.acceleration);
+        self.velocity.limit(5);
+        self.position.add(self.velocity);
+    }
+
+    public fn Update() {
+        if !self.dead {
+            self.Move();
+
+            if (self.position.x < 2 || self.position.y < 2) || (self.position.x > SCREEN_WIDTH-2 || self.position.y > SCREEN_HEIGHT-2) {
+                self.dead = true;
+            }
+        }
+    }
+}
+
+class Population {
+    public let dots: Dot[];
+
+    public fn Population(size: number) {
+    }
+}
+
+let test = new Dot();
+
+fn Draw() {
+    // y*SCREEN_WIDTH+x
+    // Clear the screen
+    screen = [];
+    for let i = 1; i <= SCREEN_WIDTH*SCREEN_HEIGHT; i=i+1 {
+        screen.push(" ");
+    }
+
+    test.Update();
+
+    DrawScreen();
+}
+
+while true {
+    Draw();
+}

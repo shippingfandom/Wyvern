@@ -14,7 +14,7 @@ There will be two ways to install the **wyvic** compiler:
 - Greybel-JS (`greybel build src/wyvic/wyvic.ms -id /root -ac -acp -ci` from the root of the project)
 
 # Documentation
-This is going to be a composition of the information from [Handbook](notes/Handbook.txt), [Builtins](src/wyvern-lang/wyv-builtins.ms), [Diagnostics](src/wyvern-lang/wyv-diagnostics.ms), [Symbols](src/wyvern-lang/wyv-symbols.ms), [Syntax](src/) and my own experience!
+This is going to be a composition of the information from [Handbook](notes/Handbook.txt), [Builtins](src/wyvern-lang/wyv-builtins.ms), [Diagnostics](src/wyvern-lang/wyv-diagnostics.ms), [Symbols](src/wyvern-lang/wyv-symbols.ms), [Syntax](src/wyvern-lang/wyv-syntax.ms) and my own experience!
 
 # Credits
 Where I will left all the credits on H3x for this amazing language, as well as mention ayecue for his amazing Greybel-JS <3

@@ -1,14 +1,14 @@
 // /// WYVERN IMPORT \\\
-import_code("/lib/wyvern/namespace")
-import_code("/lib/wyvern/utils")
-import_code("/lib/wyvern/diagnostics")
-import_code("/lib/wyvern/symbols")
-import_code("/lib/wyvern/syntax")
-import_code("/lib/wyvern/ast")
-import_code("/lib/wyvern/builtins")
+import_code("/lib/wyvern/namespace") 	// override=../wyvern-lang/wyv-namespace.ms
+import_code("/lib/wyvern/utils")		// override=../wyvern-lang/wyv-utils.ms
+import_code("/lib/wyvern/diagnostics")	// override=../wyvern-lang/wyv-diagnostics.ms
+import_code("/lib/wyvern/symbols")		// override=../wyvern-lang/wyv-symbols.ms
+import_code("/lib/wyvern/syntax")		// override=../wyvern-lang/wyv-syntax.ms
+import_code("/lib/wyvern/ast")			// override=../wyvern-lang/wyv-ast.ms
+import_code("/lib/wyvern/builtins")		// override=../wyvern-lang/wyv-builtins.ms
 
-import_code("/lib/wyvern/api")
-import_code("/lib/wyvern/compiler")
+import_code("/lib/wyvern/api")			// override=../wyvern-lang/wyv-api.ms
+import_code("/lib/wyvern/compiler")		// override=../wyvern-lang/wyv-compiler.ms
 // \\\ END WY IMPORT ///
 loadTime = time()
 
@@ -262,5 +262,5 @@ if params.len > 1 then
 
     exit()
 else
-    exit("Usage: wyvic [-i | -c (compiler is not implemented yet)] <file> [extra opts: --tree, --time, --wyv-lib-load-time]")
+    exit("Usage: wyvic [-c | -i (interpreter is not implemented yet)] <file> [extra opts: --tree, --time, --wyv-lib-load-time, --build, --ast-tree]")
 end if

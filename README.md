@@ -62,7 +62,7 @@ msimport_example.wyv
 This allows you to reuse existing code with all the advantages **Wyvern** has to offer! ❤️
 
 ### Zero runtime overhead
-**Wyvern** compiles to the equivalent code in **MiniScript** ahead-of-time and the performance remains the same as the latter! ✔️
+**Wyvern** compiles to the equivalent code in **MiniScript** ahead-of-time and the runtime performance remains the same as the latter! ✔️
 
 ## Quick Start
 Simply copy-paste this nice little sequence in your real computer's console (assuming you have [Greybel-JS](https://github.com/ayecue/greybel-js) installed and **Grey Hack** opened) 💾
@@ -71,7 +71,7 @@ TODO
 greybel build src/wyvic/wyvic.ms -id /root -ac -acp -ci
 ```
 
-### Don't have Greybel-JS installed?
+#### Don't have Greybel-JS installed?
 Then follow these easy steps to get your compiler up and running 👀
 1. TODO
 2. TODO

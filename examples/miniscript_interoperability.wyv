@@ -1,0 +1,6 @@
+let shell = get_shell();
+let computer = shell.host_computer();
+let file = computer.File("/etc/passwd");
+if file != null {
+    file.delete();
+}

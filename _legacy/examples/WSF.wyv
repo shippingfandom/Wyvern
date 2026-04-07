@@ -1,0 +1,110 @@
+/*
+    Wyvern Example: SSH / FTP
+    
+    Name: wsf (Wyvern SSH FTP)
+    Description: Used as an example of most features of the Wyvern programming language
+*/
+/////////// USAGE
+const EXEC_NAME: string = program_path.split("/").pop();
+const USAGE: string[] = [
+    "<b>Usage</b>: " + EXEC_NAME + " [Servers: IP:PORT:SERVICE TYPE]",
+    "",
+    "<b>Example</b>: " + EXEC_NAME + " 127.0.0.1:22",
+    "<b>Example</b>: " + EXEC_NAME + " 127.0.0.1:21:ftp"
+];
+
+fn PrintUsageAndExit() {
+    foreach let line in USAGE
+        print(line);
+    exit();
+}
+
+if params.len <= 0
+    PrintUsageAndExit();
+
+/////////// MAIN
+enum ServiceType {
+    SSH,
+    FTP
+}
+
+class ServerInfo {
+    public let ip: string;
+    public let port: number;
+    public let service: ServiceType;
+
+    fn ServerInfo(ip: string, port: number, service: ServiceType = ServiceType.SSH) {
+        self.ip = ip;
+        self.port = port;
+        self.service = service;
+    }
+
+    public static fn Parse(info: string) -> ServerInfo {
+        let data = info.split(":");
+        if data.len < 2 || data.len > 3
+            exit(info + " not enough info in line");
+        
+        let ip = data[0];
+        if !is_valid_ip(ip)
+            exit("invalid ip: " + ip);
+        
+        let port = cast<number>(data[1]);
+        if typeof(port) != "number"
+            exit(cast<string>(port) + " is not a number");
+
+        let service = ServiceType.SSH;
+        if data.len == 3
+            if data[2].lower() == "ftp"
+                service = ServiceType.FTP;
+        
+        return new ServerInfo(ip, port, service);
+    }
+}
+
+let shell = get_shell();
+let computer = shell.host_computer();
+
+let servers: ServerInfo[] = [];
+foreach let info in params
+    servers.push(ServerInfo.Parse(info));
+
+fn Connect(info: ServerInfo, user: string, password: string) {
+    let serviceType = "ssh";
+    if info.service == ServiceType.FTP
+        serviceType = "ftp";
+    
+    let hostShell = shell.connect_service(info.ip, info.port, user, password, serviceType);
+    if hostShell == null return;
+    if typeof(hostShell) == "string" {
+        exit(hostShell);
+    }
+    hostShell.start_terminal();
+    return;
+}
+
+for let i = 0; i < servers.len; i = i + 1 {
+    let info = servers[i];
+
+    print(cast<string>(i + 1) + " > " + info.ip + "-" + cast<string>(info.port));
+}
+
+while (true) {
+    let input = user_input("Select a server > ");
+    let selection = cast<number>(input);
+    
+    if typeof(selection) != "number" {
+        print("Non-number selection");
+        continue;
+    }
+
+    if selection < 1 || selection > servers.len {
+        print("Invalid selection");
+        continue;
+    }
+
+    let info = servers[selection - 1];
+    
+    let user = user_input("Username: ");
+    let password = user_input("Password: ");
+    Connect(info, user, password);
+}

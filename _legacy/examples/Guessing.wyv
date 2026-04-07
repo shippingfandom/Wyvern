@@ -1,0 +1,92 @@
+contract Game {
+    public fn RunGame() -> bool;
+}
+
+class GuessingGame $ Game {
+    private let magicNumber: number;
+    private let maximum: number;
+    private let hintsWanted: bool;
+
+    public let guesses: number = 0;
+
+    public fn GuessingGame(maximum: number, magicNumber: number, hintsWanted: bool) {
+        self.magicNumber = magicNumber;
+        self.hintsWanted = hintsWanted;
+        self.maximum     = maximum;
+    }
+
+    public fn RunGame() -> bool {
+        self.guesses = 1;
+        let idealGuess = maximum / 2;
+        let lowerBound = 1;
+        let upperBound = maximum;
+        
+        while true {
+            let prompt = "OK, what's your guess? ";
+            if hintsWanted
+                prompt = "(ideal: " + idealGuess + ") ";
+            let guessText = user_input(prompt);
+            if guessText == "" {
+                if hintsWanted
+                    guessText = str(idealGuess);
+                else
+                    return false;
+            }
+            
+            let guess = cast<number>(guessText);
+            
+            if guess > magicNumber {
+                print("The number is lower");
+                upperBound = idealGuess;
+                idealGuess = idealGuess - (upperBound - lowerBound + 1) / 2;
+            } else if guess < magicNumber {
+                print("The number is higher");
+                lowerBound = idealGuess;
+                idealGuess = idealGuess + (upperBound - lowerBound + 1) / 2;
+            } else {
+                return true;
+            }
+            
+            self.guesses = self.guesses + 1;
+        }
+    }
+}
+
+fn createMagicNumber(maximum: number) -> number {
+	let magicNumber = range(1, maximum).shuffle()[0];
+	print("I thought of a number between 1 and " + maximum + ".");
+	return magicNumber;
+}
+
+fn askForHints() -> bool {
+	while true {
+		let wantHints = user_input("Do you want hints? ");
+		if wantHints == "yes" || wantHints == "y" || wantHints == "" {
+			return true;
+		}
+		
+		if wantHints == "no" || wantHints == "n" {
+			return false;
+		}
+			
+		print("You can say 'yes', 'y', 'no', or 'n'");
+	}
+}
+
+fn main() {
+	let maximum: number = 100;
+	let magicNumber: number = createMagicNumber(maximum);
+	let hintsWanted: bool = askForHints();
+
+    let game: GuessingGame = new GuessingGame(maximum, magicNumber, hintsWanted);
+	
+	if game.RunGame() {
+        print("Congrats, you guessed correctly in " + game.guesses + " guesses!");
+	} else {
+		print("Giving up, are we? The number would have been " + magicNumber + ". (" + game.guesses + " amount of guesses)");
+	}
+	
+	print("Bye.");
+}
+
+main();

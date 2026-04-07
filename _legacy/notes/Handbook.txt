@@ -1,0 +1,260 @@
+##### WYVERN HANDBOOK #####
+Every expression ends with a semicolon (;)
+
+==========================================================================================================================================================
+Variable declaration expression:
+
+let | const | var VARIABLE_NAME: TYPE [type hinting is optional] = EXPRESSION;
+
+let   - Local Mutable Variable
+var   - Global Mutable Variable
+const - Global Readonly Variable
+==========================================================================================================================================================
+
+Variable reassignment expression:
+
+VARIABLE_NAME = EXPRESSION;
+
+==========================================================================================================================================================
+
+Function declaration:
+
+fn FUNCTION_NAME(VARIABLE_NAME: type [MUST HAVE TYPES] [= OPTIONAL DEFAULT]) -> RETURN_TYPE [return type is optional but defaults to void] { CODE }
+
+==========================================================================================================================================================
+
+Class declaration:
+
+class CLASS_NAME: EXTENSION_CLASS $ Contracts {
+    public | private | static [VARIABLE | FUNCTION DECLARATION]
+
+    !!! Constructors are functions that are void and are named the same thing as the class
+}
+
+==========================================================================================================================================================
+
+Contract declaration:
+
+contract CONTRACT_NAME $ Contracts {
+    [SAME THING AS CLASSES]
+}
+
+==========================================================================================================================================================
+
+Enum declaration:
+
+enum ENUM_NAME {
+    ENUM_MEMBER1,
+    ENUM_MEMBER2 = 2
+}
+
+==========================================================================================================================================================
+
+Casting (NOTE: When dealing with anything with nested <> make sure you add spaces so the lexer doesn't miss read it like this < map<type> >):
+
+cast<TYPE>(EXPRESSION)
+
+(there's also unsafe_cast which works the same but ignores all casting limits)
+unsafe_cast<TYPE>(EXPRESSION)
+
+==========================================================================================================================================================
+
+New expressions:
+
+new CLASS(CONSTRUCTOR_ARGS)
+
+==========================================================================================================================================================
+
+If Statements:
+
+if BOOLEAN_EXPRESSION {
+} else STATEMENT
+(Body can be one liner / doesn't have to be block statement)
+
+==========================================================================================================================================================
+
+While Statements:
+
+while BOOLEAN_EXPRESSION {
+} (Body can be one liner / doesn't have to be block statement)
+
+==========================================================================================================================================================
+
+Do While Statements:
+
+do {
+} while BOOLEAN_EXPRESSION;
+
+==========================================================================================================================================================
+
+For Statements (C for loops but without the parenthesis):
+
+for PRESTATEMENT; BOOL_STATEMENT; AFTER_STATEMENT {
+} (Body can be one liner / doesn't have to be block statement)
+
+==========================================================================================================================================================
+
+Foreach Statements:
+
+foreach VARIABLE_DECLARATION in LIST_EXPRESSION {
+} (Body can be one liner / doesn't have to be block statement)
+
+==========================================================================================================================================================
+
+Return Statement:
+
+return EXPRESSION_WITH_RETURN_TYPE
+
+==========================================================================================================================================================
+
+Maps and Lists:
+    List Type Signature: TYPE[]
+    Map Type Signature: KEY_TYPE<VALUE_TYPE>
+
+    Example:
+    let i: string[];
+    or
+    let i: string<number>;
+
+==========================================================================================================================================================
+
+Wyvern to Wyvern import:
+
+import "FILE PATH";
+
+==========================================================================================================================================================
+
+Wyvern to Miniscript | Miniscript to Wyvern:
+    - !!! IMPORTANT !!! NOTE THAT ALOT OF THIS IS BASED ON THE WYVERN STANDARD
+                        COMPILER THAT'S OFFICIALLY SUPPORTED BY I
+                        THE CREATOR OF WYVERN. DIFFERENT COMPILER MODULES OR
+                        EXTENSIONS CAN CHANGE HOW CODE GENERATION AND USAGE
+                        IS DONE.
+                        LOOK INTO THOSE COMPILER SPECS FOR CROSS LANGAUGE USAGE
+
+Miniscript to Wyvern:
+    Inorder for Wyvern to use Miniscript libraries you must use the "msimport" syntax
+    which looks like this:
+    
+    msimport "/PATH/TO/FILE.SRC" {/*VALID MEMBERS SUCH AS Variable, Function, Class, and Enum Declarations*/}
+
+    Basically the member part exposes parts of the MiniScript library to the Wyvern program.
+    So let's say you have a variable like this:
+    
+    EXAMPLE = "example"
+
+    you would go into msimport and have the wyvern version of this: {
+        const EXAMPLE: string;
+    }
+
+    !!! REMEMBER !!! NOT TO ADD BODIES OR INITILIAZERS THESE ARE JUST DEFINITIONS FOR WYVERN
+
+    Or a function likes:
+    f = function(h)
+        print(h)
+        return h.len
+    end function
+
+    will now be: {
+        fn f(h: string) -> number;
+    }
+
+    =======================================
+    With classes on the other hand we have todo a bit more thinking on
+    how you design them and convert them to Wyvern.
+
+    The main issue being the constructor design, how why does it is we compile
+    the code of the constructor the user gave and put the code in a method
+    named "__constructor__" which is never accessed by the anything outside
+    the class and only one method that uses it is the self generated "__new__"
+    method which creates a new instance of the class, and runs the "__constructor__"
+    method and returns the new instance.
+    
+    TLDR: Your "New" method of your class must be named "__new__" and converted to Wyvern like so: {
+        class Example {
+            public fn Example(/*your params*/);
+        }
+    }
+
+    If you don't have such luxury you can use a static method that's return type is the class: {
+        class Example {
+            static fn YOUR_NEW_METHOD_CREATOR_NAME(/*your params*/) -> Example;
+        }
+    }
+
+    TIP: For maps with functions I recommend use classes and static methods
+
+    For Enums it's recommended to use maps with numbers like so: {
+        enum Example {
+            EX1,
+            EX2
+        }
+    }
+
+Wyvern to Miniscript:
+    Compile the wyvern code and import_code
+    the only thing you need to know are classes, to create instances
+    you need to call them with the "__new__" method like so:
+    Example.__new__(/*params*/)
+
+==========================================================================================================================================================
+
+NOTES:
+    - !!! IMPORTANT !!! YOU WILL MOST LIKELY EXPERIENCE WYVERN CRASHING FROM ERRORS
+
+    - Maps and lists len, indexes, and values are properties the rest are functions
+    - Strings len, indexes, values, val, code are properties the rest are functions
+
+    - include_lib returns a base "library" type that needs to be casted using cast<>()
+      however it is also an implicit type so this:
+        let meta: metaxploit = include_lib("/lib/metaxploit.so");
+
+    - String use escapes:
+        \" - String quote
+        \n - New Line
+        \r - Carriage Return
+        \t - Horizontal Tab
+        \\ - Backslash
+        \0 - Null
+        \f - Linefeed
+        \b - Backspace
+        \v - Vertical Tab
+
+    - Unary operators:
+        - (Negative),
+        ! (Reverse bool),
+        ~ (Bitwise complement)
+    
+    - Binary Operator:
+        + (Addition),
+        - (Subtraction),
+        * (Multiplication),
+        / (Division),
+        % (Modulo),
+        ^ (Power),
+        & (Bitwise AND),
+        ^^ (Bitwise XOR),
+        | (Bitwise OR),
+        >> (Bitwise Right Shift),
+        << (Bitwise Left Shift),
+        >>> (Bitwise Unsigned Right Shift),
+        == (Logical Equals),
+        != (Logical Not Equals),
+        < (Logical Less Than),
+        > (Logical Greater Than),
+        <= (Logical Less Than OR Equal),
+        >= (Logical Greater Than OR Equal),
+        && (Logical And),
+        || (Logical OR)
+
+    - When using wyvic, wyvic's diagnostic pointers might be a bit off sometimes, this is a wyvic issue not a wyvern issue
+
+    - Maps and Lists items are only indexed using []
+
+    - When dealing with anything with nested <> make sure you add spaces so the lexer doesn't miss read it like this < map<type> >
+
+    - Enum member sets (=) can only be numbers
+    - Whatever number you use with enum sets it will add on from that number for the rest of the members (ex: MEMBER1=10, MEMBER2 (=11 since MEMBER1 is 10))
+    - Enums and numbers can be casted to each other
+
+For examples check out the "examples" folder

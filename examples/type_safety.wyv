@@ -1,0 +1,11 @@
+let a = 1;      // Inferred number
+let b = "2";    // Inferred string
+
+b = 2;          // Compilation error!
+                // Can't assign number to a string variable
+
+print(a + b);   // Compilation error!
+                // Can't summate number and a string
+
+print(a + cast<number>(b)); // Perfectly fine though!
+print(a + b.val);           // Or even this (0.0 )

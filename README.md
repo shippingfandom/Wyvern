@@ -11,12 +11,12 @@ All of the above probably doesn't tell you a thing, so please take a look at the
 
 ...Or, if you're already familiar with the language or are too curious, jump straight to the [Quick Start](#quick-start) 👀
 
-# Features
+## Features
 There are several features **Wyvern** has to offer, which are shown below along with some simple examples ✨
 
 For more complex thingies, you can see the [examples](examples) 🔍
 
-## Type safety
+### Type safety
 **Wyvern** will back you up and prevent compiling if you've made a mistake 🌺
 ```rust
 let a = 1;      // Inferred number
@@ -33,13 +33,13 @@ print(a + b.val);           // Or even this (0.0 )
 ```
 **MiniScript** would allow you to run the equivalent code and if it was a more complex program, you probably wouldn't notice the error until the runtime has taken place! 😥
 
-## Object-oriented programming
+### Object-oriented programming
 Implement complex logic in a form of contracts, classes and objects 📃
 ```rust
 object_oriented_programming.wyv
 ```
 
-## MiniScript interoperability
+### MiniScript interoperability
 Everything you know about **MiniScript** applies here! 🥰
 ```rust
 let shell = get_shell();
@@ -61,36 +61,36 @@ msimport_example.wyv
 ```
 This allows you to reuse existing code with all the advantages **Wyvern** has to offer! ❤️
 
-## Zero runtime overhead
+### Zero runtime overhead
 **Wyvern** compiles to the equivalent code in **MiniScript** ahead-of-time and the performance remains the same as the latter! ✔️
 
-# Quick Start
+## Quick Start
 Simply copy-paste this nice little sequence in your real computer's console (assuming you have [Greybel-JS](https://github.com/ayecue/greybel-js) installed and **Grey Hack** opened) 💾
 ```
 TODO
 greybel build src/wyvic/wyvic.ms -id /root -ac -acp -ci
 ```
 
-## Don't have Greybel-JS installed?
+### Don't have Greybel-JS installed?
 Then follow these easy steps to get your compiler up and running 👀
 1. TODO
 2. TODO
 3. TODO
 
-# Reference
+## Reference
 Here is a [short summary](notes/Reference.md) of the language! 📔
 
-# Known issues
+## Known issues
 This is a list of known **Wyvern** issues. Please do not ask me to fix those, I have no neccessary qualification for this! 🙅
 
-## Runtime error when casting from null
+### Runtime error when casting from null
 If you try to cast a potentially null value to something non-null, it may result in an runtime error
 ```rust
 let a: string;          // Implicitly set to null
 print(cast<number>(a)); // Runtime error!
 ```
 
-# Credits
+## Credits
 **Wyvern** is a project made solely by [H3xad3cimal](https://github.com/GuilhermeBrazilianSamurai)! My special thanks to you, you are awesome! 💖
 
 I would also like to thank these people for making this little addition to it possible 👀

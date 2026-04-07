@@ -7,7 +7,7 @@
 
 A [compiled](https://en.wikipedia.org/wiki/Compiled_language), [statically](https://en.wikipedia.org/wiki/Type_system#Static_type_checking) and [strong](https://en.wikipedia.org/wiki/Type_safety) typed, [inferred](https://en.wikipedia.org/wiki/Type_inference), [object-oriented](https://en.wikipedia.org/wiki/Object-oriented_programming) programming language written in [MiniScript](https://miniscript.org/) by [H3xad3cimal](https://github.com/GuilhermeBrazilianSamurai) for the game [Grey Hack](https://store.steampowered.com/app/605230/Grey_Hack/)!
 
-All of the above probably doesn't tell you a thing, so please take a look at the features below 🤭👇
+All of the above probably doesn't tell you a thing so please take a look at the features below 🤭👇
 
 ...Or, if you're already familiar with the language or are too curious, jump straight to the [Quick Start](#quick-start) 👀
 
@@ -31,7 +31,7 @@ print(a + b);   // Compilation error!
 print(a + cast<number>(b)); // Perfectly fine though!
 print(a + b.val);           // Or even this (0.0 )
 ```
-**MiniScript** would allow you to run the equivalent code and if it was a more complex program, you probably wouldn't notice the error until the runtime has taken place! 😥
+**MiniScript** would allow you to run the equivalent code, and if it was a more complex program, you probably wouldn't notice the error until the runtime has taken place! 😥
 
 ### Object-oriented programming
 Implement complex logic in a form of contracts, classes and objects 📃

@@ -7,14 +7,14 @@
 
 A [compiled](https://en.wikipedia.org/wiki/Compiled_language), [statically](https://en.wikipedia.org/wiki/Type_system#Static_type_checking) and [strong](https://en.wikipedia.org/wiki/Type_safety) typed, [inferred](https://en.wikipedia.org/wiki/Type_inference), [object-oriented](https://en.wikipedia.org/wiki/Object-oriented_programming) programming language written in [MiniScript](https://miniscript.org/) by [H3xad3cimal](https://github.com/GuilhermeBrazilianSamurai) for the game [Grey Hack](https://store.steampowered.com/app/605230/Grey_Hack/)!
 
-All of the above probably doesn't tell you a thing, so proceed to the features below 👇
+All of the above probably doesn't tell you a thing, so please take a look at the features below 🤭👇
 
 ...Or, if you're already familiar with the language or are too curious, jump straight to the [Quick Start](#quick-start) 👀
 
 # Features
 There are several features **Wyvern** has to offer, which are shown below along with some simple examples ✨
 
-For more complex examples, you can see the [examples](examples) 🔍
+For more complex thingies, you can see the [examples](examples) 🔍
 
 ## Type safety
 **Wyvern** will back you up and prevent compiling if you've made a mistake 🌺
@@ -65,7 +65,7 @@ This allows you to reuse existing code with all the advantages **Wyvern** has to
 **Wyvern** compiles to an exact same code in **MiniScript** ahead-of-time and the performance remains the same as the latter! ✔️
 
 # Quick Start
-Simply copy-paste this nice little sequence in your real computer's console (assuming you have Greybel-JS installed and Grey Hack opened) 💾
+Simply copy-paste this nice little sequence in your real computer's console (assuming you have [Greybel-JS](https://github.com/ayecue/greybel-js) installed and **Grey Hack** opened) 💾
 ```
 TODO
 greybel build src/wyvic/wyvic.ms -id /root -ac -acp -ci

@@ -62,7 +62,7 @@ msimport_example.wyv
 This allows you to reuse existing code with all the advantages **Wyvern** has to offer! ❤️
 
 ## Zero runtime overhead
-**Wyvern** compiles to an exact same code in **MiniScript** ahead-of-time and the performance remains the same as the latter! ✔️
+**Wyvern** compiles to the equivalent code in **MiniScript** ahead-of-time and the performance remains the same as the latter! ✔️
 
 # Quick Start
 Simply copy-paste this nice little sequence in your real computer's console (assuming you have [Greybel-JS](https://github.com/ayecue/greybel-js) installed and **Grey Hack** opened) 💾
@@ -81,7 +81,7 @@ Then follow these easy steps to get your compiler up and running 👀
 Here is a [short summary](notes/Reference.md) of the language! 📔
 
 # Known issues
-This is a list of known **Wyvern** issues. Please do not ask me to fix those, I have no neccessary qualification for this! 🙅 <small><small><small>Maybe I will have one day...</small></small></small>
+This is a list of known **Wyvern** issues. Please do not ask me to fix those, I have no neccessary qualification for this! 🙅
 
 ## Runtime error when casting from null
 If you try to cast a potentially null value to something non-null, it may result in an runtime error

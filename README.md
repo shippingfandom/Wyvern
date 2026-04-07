@@ -66,7 +66,7 @@ This allows you to reuse existing code with all the advantages **Wyvern** has to
 
 ## Quick Start
 Simply copy-paste this nice little sequence in your real computer's console (assuming you have [Greybel-JS](https://github.com/ayecue/greybel-js) installed and **Grey Hack** opened) 💾
-```powershell
+```
 git clone https://github.com/shippingfandom/Wyvern ; cd Wyvern ; greybel build src/wyvic/wyvic.ms -id /root -ac -acp -ci
 ```
 

@@ -14,7 +14,7 @@ All of the above probably doesn't tell you a thing so please take a look at the 
 ## Features
 There are several features **Wyvern** has to offer, which are shown below along with some simple examples ✨
 
-For more complex thingies, you can see the [examples](examples) 🔍
+You can look [here](_legacy/examples/) and [here](examples) for more complex thingies! 🔍
 
 ### Type safety
 **Wyvern** will back you up and prevent compiling if you've made a mistake 🌺
@@ -213,9 +213,9 @@ Congratulations! You have installed **wyvic** - the **Wyvern** compiler! 😜
 To compile a program made in **Wyvern**, type `wyvern -c YourAwesomeProgram.wyv --build` 💞
 
 ## Reference
-Here is a [short summary](notes/Reference.md) of the language, which is written in style of **MiniScript** one-page summary! 📔
+The best place to learn some of the **Wyvern** programming language is [Handbook](_legacy/notes/Handbook.txt) by **H3xad3cimal**! 🥰
 
-Or a [Handbook](_legacy/notes/Handbook.txt) made by **H3xad3cimal**! 🥰
+I also highly encourage you to read a [short summary](notes/Reference.md) of the language, which is written in style of **MiniScript** [one-page summary](https://miniscript.org/files/MiniScript-QuickRef.pdf)! 📔
 
 ## Known issues
 This is a list of known **Wyvern** issues. Please do not ask me to fix those, I have no neccessary qualification for this! 🙅

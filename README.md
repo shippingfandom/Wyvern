@@ -19,17 +19,28 @@ For more complex thingies, you can see the [examples](examples) 🔍
 ### Type safety
 **Wyvern** will back you up and prevent compiling if you've made a mistake 🌺
 ```rust
-let a = 1;      // Inferred number
-let b = "2";    // Inferred string
+// Inferred number
+let a = 1;
 
-b = 2;          // Compilation error!
-                // Can't assign number to a string variable
+// Inferred string
+let b = "2";
+```
+```rust
+// Compilation error!
+// Can't assign number to a string variable
+b = 2;
+```
+```rust
+// Compilation error!
+// Can't summate number and string
+print(a + b);
+```
+```rust
+// Perfectly fine though!
+print(a + cast<number>(b));
 
-print(a + b);   // Compilation error!
-                // Can't summate number and a string
-
-print(a + cast<number>(b)); // Perfectly fine though!
-print(a + b.val);           // Or even this (0.0 )
+// Or even this (0.0 )
+print(a + b.val);
 ```
 **MiniScript** would allow you to run the equivalent code, and if it was a more complex program, you probably wouldn't notice the error until the runtime has taken place! 😥
 

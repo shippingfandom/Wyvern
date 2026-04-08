@@ -1,0 +1,72 @@
+contract Plane {
+    public virtual fn Area() -> number;
+    public virtual fn Perimeter() -> number;
+}
+
+class Figure $ Plane {
+    public virtual fn Area() -> number;
+    public virtual fn Perimeter() -> number;
+    public virtual fn Sides() -> number[];
+}
+
+class Triangle: Figure {
+    private let _a: number;
+    private let _b: number;
+    private let _c: number;
+
+    private fn _TriangleInequality() -> bool {
+        if self._a <= 0 || self._b <= 0 || self._c <= 0 {
+            return false;
+        }
+        return (self._a + self._b > self._c) && (self._a + self._c > self._b) && (self._b + self._c > self._a);
+    }
+
+    public override fn Area() -> number {
+        const p = self.Perimeter();
+        return sqrt(p * (p - self._a) * (p - self._b) * (p - self._c));
+    }
+    public override fn Perimeter() -> number {
+        return (self._a + self._b + self._c) / 2;
+    }
+    public override fn Sides() -> number[] {
+        return [self._a, self._b, self._c];
+    }
+
+    fn Triangle(a: number, b: number, c: number) {
+        self._a = a;
+        self._b = b;
+        self._c = c;
+        if !self._TriangleInequality() {
+            exit("Incorrect triangle!");
+        }
+    }
+}
+
+class Square: Figure {
+    private let _side: number;
+
+    public override fn Area() -> number {
+        return self._side * self._side;
+    }
+    public override fn Perimeter() -> number {
+        return self._side * 4;
+    }
+    public override fn Sides() -> number[] {
+        return [self._side, self._side, self._side, self._side];
+    }
+
+    fn Square(side: number) {
+        self._side = side;
+    }
+}
+
+
+const figures: Figure[] = [
+    new Triangle(3, 4, 5),
+    new Triangle(10, 10, 10),
+    new Square(4),
+    new Square(13)
+];
+foreach const figure in figures {
+    print([figure.Area(), figure.Perimeter(), figure.Sides()]);
+}

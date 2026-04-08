@@ -133,13 +133,40 @@ if file != null {
 ```
 Not only that, but you can use **MiniScript** libraries in **Wyvern** programs! 😲
 
-Let's say we have this little function in a hypothetical file called *msimport_example.src*:
+Let's say we have this little function in a hypothetical file called **math.src** located in **/home/user**:
 ```
-msimport_example.src
+Math = {}
+Math.classID = "Math"
+Math._pi = null
+
+Math.Pi = function
+    return self._pi
+end function
+Math.Factorial = function(n)
+    if n <= 0 then return 1
+    return self.Factorial(n - 1) * n
+end function
+
+Math.New = function
+    this = new Math
+    this.classID = "Math"
+    this._pi = 3.14
+    return this
+end function
 ```
 Then, to use it in our **Wyvern** program, we write as follows:
 ```
-msimport_example.wyv
+msimport "math.src" {
+    class Math {
+        public fn Pi() -> number;
+        public fn Factorial(n: number) -> number;
+
+        public static fn New() -> Math;
+    }
+}
+
+const math = Math.New();
+print([math.Pi(), math.Factorial(5)]);
 ```
 This allows you to reuse existing code with all the advantages **Wyvern** has to offer! ❤️
 

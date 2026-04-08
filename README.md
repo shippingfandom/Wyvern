@@ -213,7 +213,7 @@ Congratulations! You have installed **wyvic** - the **Wyvern** compiler! 😜
 To compile a program made in **Wyvern**, type `wyvern -c YourAwesomeProgram.wyv --build` 💞
 
 ## Reference
-Here is a [short summary](notes/Reference.md) of the language! 📔
+Here is a [short summary](notes/Reference.md) of the language, which is written in style of **MiniScript** one-page summary! 📔
 
 Or a [Handbook](_legacy/notes/Handbook.txt) made by **H3xad3cimal**! 🥰
 
@@ -230,7 +230,7 @@ let a: string;
 print(cast<number>(a));
 ```
 
-### Compilation crash when trying to compile a function with an untyped parameter
+### Compilation crash when compiling a function with an untyped parameter
 If you attempt to compile something like this
 ```rust
 fn Print(message) {
@@ -246,6 +246,17 @@ Always type your function parameters!
 fn Print(message: any) {
 	print(message);
 }
+```
+
+### Compilation error when casting to nested type
+```rust
+let a: any<any> = {1: 2, 3: 4, 5: 6};
+
+// Compilation error!
+cast<number<number>>(a);
+
+// Perfectly fine (0.0 )
+cast< number<number> >(a);
 ```
 
 ## Credits

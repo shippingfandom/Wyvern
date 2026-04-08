@@ -144,13 +144,79 @@ print(f(5));				// Also 15
 ```
 
 ## Classes & Objects
+A class is a user specified type. It can have **public** and **private** fields, as well as **virtual** and **static** ones; **public** fields are accessible outside of the class, while **private** ones are accessible only inside of the class and it's children. Use **override** if you want to change a field from a parent class. A method with no access modifiers and the same name as the class is a constructor of this class.
+
+An object is an instance of a class. To create an object, use **new** keyword.
+```rust
+class Shape {
+	public let name = "Shape";
+	private let _sides = 0;
+
+	public fn Sides() -> number {
+		return self._sides;
+	}
+	public fn Degrees() -> number {
+		return 180 * (self._sides - 2);
+	}
+}
+
+class Square: Shape {
+	public override let name = "Square";
+	private override let _sides = 4;
+}
+
+let x: Shape = new Square();
+print(x.name);		// Square
+print(x.Sides());	// 4
+print(x.Degrees());	// 360
+```
 
 ## Intrinsic Functions and Methods
 
 ### Numeric
+|             |          |            |
+|:------------|:---------|:-----------|
+| abs(x)      | acos(x)  | asin(x)    |
+| atan(y, x)  | ceil(x)  | char(i)    |
+| cos(r)      | floor(x) | log(x, b)  |
+| round(x, d) | rnd()    | rnd(seed)  |
+| pi          | sign(x)  | sin(r)     |
+| sqrt(x)     | str(x)   | tan(r)     |
 
 ### String
+|                |               |
+|:---------------|:--------------|
+| .indexOf(s)    | .insert(i, s) |
+| .len           | .val          |
+| .code          | .remove(s)    |
+| .lower()       | .upper()      |
+| .replace(a, b) | .split(d)     |
 
 ### List/Map
+|               |                       |
+|:--------------|:----------------------|
+| .hasIndex(i)  | .indexOf(x)           |
+| .insert(i, v) | .join(s)              |
+| .push(x)      | .pop()                |
+| .pull()       | .indexes              |
+| .values       | .len                  |
+| .sum()        | .sort()               |
+| .shuffle()    | .remove(i)            |
+|               | range(from, to, step) |
 
 ### Generic
+|          |              |                     |
+|:---------|:-------------|:--------------------|
+| print(a) | time         | wait(sec)           |
+| locals   | outer        | globals             |
+| yield()  | cast\<T\>(a) | unsafe_cast\<T\>(a) |
+
+### Cast types
+|           |            |            |            |
+|:----------|:-----------|:-----------|:-----------|
+| reference | bool       | number     | string     |
+| any       | library    | computer   | router     |
+| file      | port       | shell      | ftpshell   |
+| metalib   | netsession | wallet     | metamail   |
+| coin      | subwallet  | aptclient  | metaxploit |
+|           | crypto     | blockchain | service    |

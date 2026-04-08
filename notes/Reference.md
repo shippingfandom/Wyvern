@@ -101,7 +101,7 @@ print("OK, \"Bob\".");
 ### Lists
 Write a list in square brackets. Iterate over the list with **foreach**, or pull out individual items with a 0-based index in square brackets. A negative index counts from the end. Get a slice (subset) of a list with **slice** function.
 ```rust
-let x = [2, 4, 6, 8];
+let x: number[] = [2, 4, 6, 8];
 x[0];			// 2
 x[-1];			// 8
 slice(x, 1, 3);	// [4, 6]

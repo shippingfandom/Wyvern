@@ -144,7 +144,7 @@ print(f(5));				// Also 15
 ```
 
 ## Classes & Objects
-A class is a user specified type. It can have **public** and **private** fields, as well as **virtual** and **static** ones; **public** fields are accessible outside of the class, while **private** ones are accessible only inside of the class and it's children. Use **override** if you want to change a field from a parent class. A method with no access modifiers and the same name as the class is a constructor of this class.
+A class is a user specified type. It can have **public** and **private** fields, as well as **virtual** and **static** ones; **public** fields are accessible outside of the class, while **private** ones are accessible only inside of the class and it's children. Use **override** if you want to change a field from a parent class. A method with no access modifiers and with the same name as the class is a constructor of this class.
 
 An object is an instance of a class. To create an object, use **new** keyword.
 ```rust

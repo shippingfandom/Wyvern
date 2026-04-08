@@ -134,7 +134,7 @@ if file != null {
 Not only that, but you can use **MiniScript** libraries in **Wyvern** programs! 😲
 
 Let's say we have this little function in a hypothetical file called **math.src** located in **/home/user**:
-```
+```javascript
 Math = {}
 Math.classID = "Math"
 Math._pi = null
@@ -155,7 +155,7 @@ Math.New = function
 end function
 ```
 Then, to use it in our **Wyvern** program, we write as follows:
-```
+```rust
 msimport "/home/user/math.src" {
     class Math {
         public fn Pi() -> number;

@@ -47,7 +47,78 @@ print(a + b.val);
 ### Object-oriented programming
 Implement complex logic in a form of contracts, classes and objects 📃
 ```rust
-object_oriented_programming.wyv
+contract Plane {
+    public virtual fn Area() -> number;
+    public virtual fn Perimeter() -> number;
+}
+
+class Figure $ Plane {
+    public virtual fn Area() -> number;
+    public virtual fn Perimeter() -> number;
+    public virtual fn Sides() -> number[];
+}
+
+class Triangle: Figure {
+    private let _a: number;
+    private let _b: number;
+    private let _c: number;
+
+    private fn _TriangleInequality() -> bool {
+        if self._a <= 0 || self._b <= 0 || self._c <= 0 {
+            return false;
+        }
+        return (self._a + self._b > self._c) && (self._a + self._c > self._b) && (self._b + self._c > self._a);
+    }
+
+    public override fn Area() -> number {
+        const p = self.Perimeter();
+        return sqrt(p * (p - self._a) * (p - self._b) * (p - self._c));
+    }
+    public override fn Perimeter() -> number {
+        return (self._a + self._b + self._c) / 2;
+    }
+    public override fn Sides() -> number[] {
+        return [self._a, self._b, self._c];
+    }
+
+    fn Triangle(a: number, b: number, c: number) {
+        self._a = a;
+        self._b = b;
+        self._c = c;
+        if !self._TriangleInequality() {
+            exit("Incorrect triangle!");
+        }
+    }
+}
+
+class Square: Figure {
+    private let _side: number;
+
+    public override fn Area() -> number {
+        return self._side * self._side;
+    }
+    public override fn Perimeter() -> number {
+        return self._side * 4;
+    }
+    public override fn Sides() -> number[] {
+        return [self._side, self._side, self._side, self._side];
+    }
+
+    fn Square(side: number) {
+        self._side = side;
+    }
+}
+
+
+const figures: Figure[] = [
+    new Triangle(3, 4, 5),
+    new Triangle(10, 10, 10),
+    new Square(4),
+    new Square(13)
+];
+foreach const figure in figures {
+    print([figure.Area(), figure.Perimeter(), figure.Sides()]);
+}
 ```
 
 ### MiniScript interoperability
@@ -91,18 +162,18 @@ No worries! Follow these simple steps to get your compiler up and running 👀
 
 Now you have to repeat the step 5 until you have all the needed files in **/lib/wyvern**... For our own mental health, here is a list of what you have to create and with what you have to populate 🤫
 
-| Path in Grey Hack         | Name in [src/wyvern-lang/](src/wyvern-lang/)              |
-|:--------------------------|:----------------------------------------------------------|
-| /lib/wyvern/namespace     | [wyv-namespace.ms](src/wyvern-lang/wyv-namespace.ms)      |
-| /lib/wyvern/utils         | [wyv-utils.ms](src/wyvern-lang/wyv-utils.ms)              |
-| /lib/wyvern/diagnostics   | [wyv-diagnostics.ms](src/wyvern-lang/wyv-diagnostics.ms)  |
-| /lib/wyvern/symbols       | [wyv-symbols.ms](src/wyvern-lang/wyv-symbols.ms)          |
-| /lib/wyvern/syntax        | [wyv-syntax.ms](src/wyvern-lang/wyv-syntax.ms)            |
-| /lib/wyvern/ast           | [wyv-ast.ms](src/wyvern-lang/wyv-ast.ms)                  |
-| /lib/wyvern/builtins      | [wyv-builtins.ms](src/wyvern-lang/wyv-builtins.ms)        |
-| /lib/wyvern/api           | [wyv-api.ms](src/wyvern-lang/wyv-api.ms)                  |
-| /lib/wyvern/compiler      | [wyv-compiler.ms](src/wyvern-lang/wyv-compiler.ms)        |
-| /lib/wyvern/wyvic.src     | [src/wyvic/wyvic.ms](src/wyvic/wyvic.ms)                  |
+| Name in /lib/wyvern/ | Name in [src/wyvern-lang/](src/wyvern-lang/)             |
+|:---------------------|:---------------------------------------------------------|
+| namespace            | [wyv-namespace.ms](src/wyvern-lang/wyv-namespace.ms)     |
+| utils                | [wyv-utils.ms](src/wyvern-lang/wyv-utils.ms)             |
+| diagnostics          | [wyv-diagnostics.ms](src/wyvern-lang/wyv-diagnostics.ms) |
+| symbols              | [wyv-symbols.ms](src/wyvern-lang/wyv-symbols.ms)         |
+| syntax               | [wyv-syntax.ms](src/wyvern-lang/wyv-syntax.ms)           |
+| ast                  | [wyv-ast.ms](src/wyvern-lang/wyv-ast.ms)                 |
+| builtins             | [wyv-builtins.ms](src/wyvern-lang/wyv-builtins.ms)       |
+| api                  | [wyv-api.ms](src/wyvern-lang/wyv-api.ms)                 |
+| compiler             | [wyv-compiler.ms](src/wyvern-lang/wyv-compiler.ms)       |
+| wyvic.src            | [src/wyvic/wyvic.ms](src/wyvic/wyvic.ms)                 |
 
 Phew! That was an interesting experience! 😅
 
@@ -126,6 +197,15 @@ If you try to cast a potentially null value to something non-null, it may result
 let a: string;          // Implicitly set to null
 print(cast<number>(a)); // Runtime error!
 ```
+
+### Compilation crash when trying to compile a function with a parameter of no kind
+If you attempt to compile something like this
+```rust
+```
+It will result in a crash
+```
+```
+Always type your function parameters!
 
 ## Credits
 **Wyvern** is a project made solely by [H3xad3cimal](https://github.com/GuilhermeBrazilianSamurai)! My special thanks to you, you are awesome! 💖

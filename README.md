@@ -156,7 +156,7 @@ end function
 ```
 Then, to use it in our **Wyvern** program, we write as follows:
 ```
-msimport "math.src" {
+msimport "/home/user/math.src" {
     class Math {
         public fn Pi() -> number;
         public fn Factorial(n: number) -> number;

@@ -264,6 +264,7 @@ cast< number<number> >(a);
 
 I would also like to thank these people for making this little addition to it possible 👀
 
+- Thanks [JoeStrout](https://github.com/JoeStrout) for [MiniScript](https://miniscript.org/)!
 - Thanks [ayecue](https://github.com/ayecue) for [Greybel-JS](https://github.com/ayecue/greybel-js)!
 
 You all are simply the best! 🥰

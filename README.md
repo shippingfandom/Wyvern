@@ -194,8 +194,11 @@ This is a list of known **Wyvern** issues. Please do not ask me to fix those, I 
 ### Runtime error when casting from null
 If you try to cast a potentially null value to something non-null, it may result in a runtime error
 ```rust
-let a: string;          // Implicitly set to null
-print(cast<number>(a)); // Runtime error!
+// Implicitly set to null
+let a: string;
+
+// Runtime error!
+print(cast<number>(a));
 ```
 
 ### Compilation crash when trying to compile a function with a parameter of no kind

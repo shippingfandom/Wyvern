@@ -67,7 +67,7 @@ The **break** statement jumps out of a **while**, **foreach** or **for** loop. T
 ### Booleans
 Boolean is a logical value that represents *true* or *false*. Manifested with **bool**.
 
-| Operator  | Description |
+| Operators | Description |
 |:----------|:------------|
 | &&        | Logical AND |
 | \|\|      | Logical OR  |
@@ -100,8 +100,36 @@ print("OK, \"Bob\".");
 
 ### Lists
 Write a list in square brackets. Iterate over the list with **foreach**, or pull out individual items with a 0-based index in square brackets. A negative index counts from the end. Get a slice (subset) of a list with **slice** function.
+```rust
+let x = [2, 4, 6, 8];
+x[0];			// 2
+x[-1];			// 8
+slice(x, 1, 3);	// [4, 6]
+x[2] = 5;		// x is now [2, 4, 5, 8]
+```
+
+| Operators      | Description                      |
+|:---------------|:---------------------------------|
+| +              | List concatenation               |
+| *, /           | Replication, Division            |
+| [i]            | Get/set element at index *i*     |
+| slice(s, i, j) | Get/set slice from *i* up to *j* |
 
 ### Maps
+A map is a set of values associated with unique keys. Create a map with curly braces; get or set a single value with square brackets. Keys and values may be any type.
+```rust
+let m: number<string> = {
+	1: "one",
+	2: "two"
+};
+m[1];	// "one"
+m[2] = "dos";
+```
+
+| Operators      | Description                      |
+|:---------------|:---------------------------------|
+| +              | Map concatenation                |
+| [k]            | Get/set value with the key *k*   |
 
 ### Functions
 

@@ -228,7 +228,7 @@ let a: string;
 print(cast<number>(a));
 ```
 
-### Compilation crash when trying to compile a function with a parameter of no kind
+### Compilation crash when trying to compile a function with an untyped parameter
 If you attempt to compile something like this
 ```rust
 fn Print(message) {

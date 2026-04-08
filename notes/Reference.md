@@ -4,7 +4,7 @@ Wyvern is a compiled, statically and strong typed, inferred, object-oriented pro
 ## Syntax
 Always end statements with a *semicolon*.
 
-Code blocks are delimited by braces (see below). Indentation matters only for the readability.
+Code blocks are delimited by *braces* (see below). Indentation matters only for the readability.
 
 Comments begin with *//*.
 

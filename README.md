@@ -215,6 +215,8 @@ To compile a program made in **Wyvern**, type `wyvern -c YourAwesomeProgram.wyv 
 ## Reference
 Here is a [short summary](notes/Reference.md) of the language! 📔
 
+Or a [Handbook](_legacy/notes/Handbook.txt) made by **H3xad3cimal**! 🥰
+
 ## Known issues
 This is a list of known **Wyvern** issues. Please do not ask me to fix those, I have no neccessary qualification for this! 🙅
 

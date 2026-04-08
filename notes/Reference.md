@@ -105,7 +105,7 @@ let x: number[] = [2, 4, 6, 8];
 x[0];			// 2
 x[-1];			// 8
 slice(x, 1, 3);	// [4, 6]
-x[2] = 5;		// x is now [2, 4, 5, 8]
+x[2] = 5;		// Now x is [2, 4, 5, 8]
 ```
 
 | Operators      | Description                      |
@@ -132,6 +132,16 @@ m[2] = "dos";
 | [k]            | Get/set value with the key *k*   |
 
 ### Functions
+Create a function with **fn** keyword, give it a name,  include parameters with types and optional default values in *brackets*, after the *arrow* specify the return type. Invoke by using that name and *brackes*, either empty or with arguments. Use a function name to reference it without invoking.
+```rust
+fn Triple(n: number = 1) -> number {
+	return n * 3;
+}
+print(Triple());			// 3
+print(Triple(5));			// 15
+let f: reference = Triple;
+print(f(5));				// Also 15
+```
 
 ## Classes & Objects
 

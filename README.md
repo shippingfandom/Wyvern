@@ -201,11 +201,20 @@ print(cast<number>(a)); // Runtime error!
 ### Compilation crash when trying to compile a function with a parameter of no kind
 If you attempt to compile something like this
 ```rust
+fn Print(message) {
+	print(message);
+}
 ```
 It will result in a crash
 ```
+Runtime Error: Type Error (while attempting to look up Kind) [ast line 1577]
 ```
 Always type your function parameters!
+```rust
+fn Print(message: any) {
+	print(message);
+}
+```
 
 ## Credits
 **Wyvern** is a project made solely by [H3xad3cimal](https://github.com/GuilhermeBrazilianSamurai)! My special thanks to you, you are awesome! 💖

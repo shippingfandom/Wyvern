@@ -127,7 +127,7 @@ print("OK, \"Bob\".");
 | slice(s, i, j) | Get slice from *i* up to *j* |
 
 ### Lists
-Write a list in square brackets. Iterate over the list with **foreach**, or pull out individual items with a 0-based index in square brackets. A negative index counts from the end. Get a slice (subset) of a list with **slice** function.
+Write a list in square brackets. Iterate over the list with **foreach**, or pull out individual items with a 0-based index in square brackets. A negative index counts from the end. Get a slice (subset) of a list with **slice** function. Manifested with **keyT\[valueT\]**.
 ```rust
 let x: number[] = [2, 4, 6, 8];
 x[0];			// 2
@@ -144,7 +144,7 @@ x[2] = 5;		// Now x is [2, 4, 5, 8]
 | slice(s, i, j) | Get/set slice from *i* up to *j* |
 
 ### Maps
-A map is a set of values associated with unique keys. Create a map with curly braces; get or set a single value with square brackets. Keys and values may be any type. Manifested with **keyT\<valueT\>**
+A map is a set of values associated with unique keys. Create a map with curly braces; get or set a single value with square brackets. Keys and values may be any type. Manifested with **keyT\<valueT\>**.
 ```rust
 let m: number<string> = {
 	1: "one",

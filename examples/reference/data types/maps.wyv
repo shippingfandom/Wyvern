@@ -1,0 +1,6 @@
+let m: number<string> = {
+	1: "one",
+	2: "two"
+};
+m[1];	// "one"
+m[2] = "dos";

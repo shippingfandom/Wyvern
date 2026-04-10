@@ -1,0 +1,53 @@
+contract IUnsafeConstructable {
+    public let __constructor__: reference;
+    public let __new__: reference;
+}
+
+class Entity {
+	private let _speed: number;
+
+	public fn Speed() -> number {
+		return self._speed;
+	}
+	public virtual fn Talk();
+
+	fn Entity(speed: number) {
+		self._speed = speed;
+	}
+
+    public static virtual fn Summon() -> Entity;
+}
+
+class Cat: Entity {
+	public override fn Talk() {
+		print("Meow :3");
+	}
+
+	override fn Cat() {
+        unsafe_cast<IUnsafeConstructable>(super).__constructor__(108111118101);
+	}
+
+    public static override fn Summon() -> Entity {
+        return new Cat();
+    }
+}
+
+class Sentient: Entity {
+	public override fn Talk() {
+		print("Hello, sentient being!");
+	}
+
+	override fn Sentient() {
+		unsafe_cast<IUnsafeConstructable>(super).__constructor__(1337);
+	}
+
+    public static override fn Summon() -> Entity {
+        return new Sentient();
+    }
+}
+
+let entities: Entity[] = [Cat.Summon(), Sentient.Summon()];
+foreach let entity: Entity in entities {
+	print(entity.Speed());
+	entity.Talk();
+}

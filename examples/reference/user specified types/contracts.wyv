@@ -1,0 +1,22 @@
+contract Printable {
+	public fn Print();
+}
+
+class Figure $ Printable {
+	public fn Print() {
+		print("Figure!");
+	}
+}
+
+class Entity $ Printable {
+	public fn Print() {
+		print("Entity!");
+	}
+}
+
+let printables: Printable[] = [
+	new Figure(), new Entity()
+];
+foreach let p: Printable in printables {
+	p.Print();
+}

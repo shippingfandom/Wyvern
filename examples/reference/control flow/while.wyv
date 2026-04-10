@@ -1,0 +1,5 @@
+let s: string = "Spam";
+while s.len < 50 {
+	s = s + ", spam";
+}
+print(s + " and spam!");

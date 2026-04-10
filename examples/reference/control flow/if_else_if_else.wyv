@@ -1,0 +1,9 @@
+if 2 + 2 == 4 {
+	print("Math works!");
+} else if pi > 3 {
+	print("Pi is tasty");
+} else if "a".code < "b".code {
+	print("I can sort");
+} else {
+	print("Last chance");
+}

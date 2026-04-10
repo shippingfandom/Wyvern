@@ -273,7 +273,7 @@ foreach let entity: Entity in entities {
 ```
 
 ### Contracts (Interfaces)
-A **contract** defines a set of methods and properties that a **class** must implement, without providing any implementation itself. A **class** implements an interface to guarantee a specific behavior. Unlike **classes**, **contracts** cannot have constructors, and a **class** can implement multiple **contracts**.
+A **contract** defines a set of methods and properties that a **class** must implement, without providing any implementation itself. A **class** implements a **contract** to guarantee a specific behavior. Unlike **classes**, **contracts** cannot have constructors, and a **class** can implement multiple **contracts**.
 
 ```rust
 contract Printable {

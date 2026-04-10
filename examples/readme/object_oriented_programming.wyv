@@ -22,7 +22,7 @@ class Triangle: Figure {
     }
 
     public override fn Area() -> number {
-        const p = self.Perimeter();
+        let p = self.Perimeter();
         return sqrt(p * (p - self._a) * (p - self._b) * (p - self._c));
     }
     public override fn Perimeter() -> number {
@@ -61,12 +61,12 @@ class Square: Figure {
 }
 
 
-const figures: Figure[] = [
+let figures: Figure[] = [
     new Triangle(3, 4, 5),
     new Triangle(10, 10, 10),
     new Square(4),
     new Square(13)
 ];
-foreach const figure in figures {
+foreach let figure in figures {
     print([figure.Area(), figure.Perimeter(), figure.Sides()]);
 }

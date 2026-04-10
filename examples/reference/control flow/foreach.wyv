@@ -1,0 +1,4 @@
+foreach let i: number in range(10, 1) {
+	print(cast<string>(i) + "...");
+}
+print("All done! <3");

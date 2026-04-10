@@ -1,0 +1,12 @@
+let s: string = "Lots";
+switch s {
+	case "Lots":
+		print(s + " of love! <3");
+		break;
+	case null:
+		print("Much appreciation!");
+		break;
+	default:
+		print("Need more positivity!");
+		break;
+}

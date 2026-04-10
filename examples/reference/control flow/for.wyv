@@ -1,0 +1,4 @@
+for let i: number = 10; i > 0; i = i - 1 {
+	print(cast<string>(i) + "...");
+}
+print("All done! <3");

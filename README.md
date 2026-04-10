@@ -71,7 +71,7 @@ class Triangle: Figure {
     }
 
     public override fn Area() -> number {
-        const p = self.Perimeter();
+        let p = self.Perimeter();
         return sqrt(p * (p - self._a) * (p - self._b) * (p - self._c));
     }
     public override fn Perimeter() -> number {
@@ -110,13 +110,13 @@ class Square: Figure {
 }
 
 
-const figures: Figure[] = [
+let figures: Figure[] = [
     new Triangle(3, 4, 5),
     new Triangle(10, 10, 10),
     new Square(4),
     new Square(13)
 ];
-foreach const figure in figures {
+foreach let figure in figures {
     print([figure.Area(), figure.Perimeter(), figure.Sides()]);
 }
 ```
@@ -133,7 +133,7 @@ if file != null {
 ```
 Not only that, but you can use **MiniScript** libraries in **Wyvern** programs! 😲
 
-Let's say we have this little function in a hypothetical file called **math.src** located in **/home/user**:
+Let's say we have this little library in a hypothetical file called **math.src** located in **/home/user**:
 ```javascript
 Math = {}
 Math.classID = "Math"
@@ -165,7 +165,7 @@ msimport "/home/user/math.src" {
     }
 }
 
-const math = Math.New();
+let math = Math.New();
 print([math.Pi(), math.Factorial(5)]);
 ```
 This allows you to reuse existing code with all the advantages **Wyvern** has to offer! ❤️
@@ -251,10 +251,14 @@ fn Print(message: any) {
 ### Compilation error when casting to nested type
 ```rust
 let a: any<any> = {1: 2, 3: 4, 5: 6};
-
+```
+If you forget spaces between *angle brackets*, you will get a compilation error
+```rust
 // Compilation error!
 cast<number<number>>(a);
-
+```
+Always add spaces in nested casts!
+```rust
 // Perfectly fine (0.0 )
 cast< number<number> >(a);
 ```

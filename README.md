@@ -133,7 +133,7 @@ if file != null {
 ```
 Not only that, but you can use **MiniScript** libraries in **Wyvern** programs! 😲
 
-Let's say we have this little function in a hypothetical file called **math.src** located in **/home/user**:
+Let's say we have this little library in a hypothetical file called **math.src** located in **/home/user**:
 ```javascript
 Math = {}
 Math.classID = "Math"

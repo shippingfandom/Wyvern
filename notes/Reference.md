@@ -144,7 +144,7 @@ x[2] = 5;		// Now x is [2, 4, 5, 8]
 | slice(s, i, j) | Get/set slice from *i* up to *j* |
 
 ### Maps
-A map is a set of values associated with unique keys. Create a map with curly braces; get or set a single value with square brackets. Keys and values may be any type. Manifested with **key\T\<valueT\>**.
+A map is a set of values associated with unique keys. Create a map with curly braces; get or set a single value with square brackets. Keys and values may be any type. Manifested with **keyT\<valueT\>**.
 ```rust
 let m: number<string> = {
 	1: "one",

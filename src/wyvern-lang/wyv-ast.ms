@@ -2286,7 +2286,7 @@ Wyvern.Binder.BindNewExpression = function(syntax)
         return Wyvern.BoundErrorExpression.New()
     end if
 
-    constructorMember = class.GetMethod("@constructor")
+    constructorMember = class.GetMethod("__constructor__")
     if constructorMember == null then
         return Wyvern.BoundNewExpression.New(class, [])
     end if
@@ -2484,35 +2484,39 @@ Wyvern.Binder.BindClassDeclaration = function(syntax, noBody=false)
         if extension != null then
             extField = extension.GetField(memberType.Name)
             if extField then
-                if not extField.Modifiers.IsVirtual and not memberType.Modifiers.IsOverride then
-                    self.Diagnostics.ReportSymbolAlreadyDeclared(syntaxDecl.Identifier.Location, boundDeclaration.Name)
-                    continue
-                end if
+                efSymbol = extField.Symbol
+                mtSymbol = memberType.Symbol
 
-                if not memberType.Modifiers.IsOverride then
-                    self.Diagnostics.ReportVirtualSymbolExists(syntaxDecl.Identifier.Location, boundDeclaration.Name)
-                    continue
-                end if
+                if not efSymbol isa Wyvern.FunctionSymbol and mtSymbol.Name != "__constructor__" then
+                    if not extField.Modifiers.IsVirtual and not memberType.Modifiers.IsOverride then
+                        self.Diagnostics.ReportSymbolAlreadyDeclared(syntaxDecl.Identifier.Location, boundDeclaration.Name)
+                        continue
+                    end if
 
-                if extField.Modifiers.IsPublic != memberType.Modifiers.IsPublic or extField.Modifiers.IsStatic != memberType.Modifiers.IsStatic then
-                    self.Diagnostics.ReportFieldDoesntHaveSameModifiers(syntaxDecl.Identifier.Location, boundDeclaration.Name)
-                    continue
+                    if not memberType.Modifiers.IsOverride then
+                        self.Diagnostics.ReportVirtualSymbolExists(syntaxDecl.Identifier.Location, boundDeclaration.Name)
+                        continue
+                    end if
+
+                    if extField.Modifiers.IsPublic != memberType.Modifiers.IsPublic or extField.Modifiers.IsStatic != memberType.Modifiers.IsStatic then
+                        self.Diagnostics.ReportFieldDoesntHaveSameModifiers(syntaxDecl.Identifier.Location, boundDeclaration.Name)
+                        continue
+                    end if
                 end if
 
                 if Wyvern.IsA(Wyvern.FunctionSymbol, extField.Symbol) != Wyvern.IsA(Wyvern.FunctionSymbol, memberType.Symbol) then
                     self.Diagnostics.ReportAttemptedOverrideWrongField(syntaxDecl.Identifier.Location, extField.Symbol, memberType.Symbol)
                     continue
                 end if
+                
 
-                efSymbol = extField.Symbol
-                mtSymbol = memberType.Symbol
                 if Wyvern.IsA(Wyvern.FunctionSymbol, efSymbol) then
                     if efSymbol.Type != mtSymbol.Type then
                         self.Diagnostics.ReportOverrideDoesntHaveSameType(syntaxDecl.TypeClause.Location, boundDeclaration.Name, efSymbol.Type, mtSymbol.Type)
                         continue
                     end if
 
-                    if not efSymbol.CompareParameters(mtSymbol) and mtSymbol.Name != "@constructor" then
+                    if not efSymbol.CompareParameters(mtSymbol) and mtSymbol.Name != "__constructor__" then
                         self.Diagnostics.ReportOverrideDoesntHaveSameParameters(syntaxDecl.OpenParenthesis.Location.Combine(syntaxDecl.CloseParenthesis.Location), boundDeclaration.Name)
                         continue
                     end if
@@ -2582,7 +2586,7 @@ Wyvern.Binder.BindClassDeclaration = function(syntax, noBody=false)
             if not boundMember.IsStatic then
                 binder.Scope.TryDeclareVariable(Wyvern.LocalVariableSymbol.New("self", false, classSymbol)) // defines the "self" variable
                 if extension != null then
-                    binder.Scope.TryDeclareVariable(Wyvern.LocalVariableSymbol.New("super", false, extension)) // defines the "self" variable
+                    binder.Scope.TryDeclareVariable(Wyvern.LocalVariableSymbol.New("super", false, extension)) // defines the "super" variable
                 end if
             end if
             body = binder.BindStatement(boundDeclaration.Body)
@@ -2710,7 +2714,7 @@ Wyvern.Binder.BindMemberDeclaration = function(syntax, name="")
     else if Wyvern.IsA(Wyvern.FunctionDeclarationSyntax, syntax) then
         boundDeclaration = self.BindFunctionDeclaration(syntax, false)
         if boundDeclaration.Name == name then
-            boundDeclaration.Symbol.Name = "@constructor"
+            boundDeclaration.Symbol.Name = "__constructor__"
         end if
         boundDeclaration.Body = syntax.Body
     end if

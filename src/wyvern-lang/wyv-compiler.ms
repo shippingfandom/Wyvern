@@ -774,7 +774,7 @@ Wyvern.Compiler.CompileClassDeclaration = function(declaration)
         fdeclaration = method.Declaration
         if fdeclaration.Kind == Wyvern.BoundNodeKind.FunctionDeclaration then
             funcDeclarations.push(fdeclaration)
-            if fdeclaration.Symbol.Name == "@constructor" then
+            if fdeclaration.Symbol.Name == "__constructor__" then
                 constructorIndex = funcDeclarations.len() - 1
             end if
         end if
@@ -784,7 +784,7 @@ Wyvern.Compiler.CompileClassDeclaration = function(declaration)
         fstate.push(className)
         fstate.push(".")
 
-        if funcDeclaration.Symbol.Name == "@constructor" then
+        if funcDeclaration.Symbol.Name == "__constructor__" then
             fstate.push(self.CompileFunctionDeclaration(funcDeclaration, "__constructor__"))
         else
             fstate.push(self.CompileFunctionDeclaration(funcDeclaration))

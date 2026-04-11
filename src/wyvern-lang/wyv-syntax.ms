@@ -187,7 +187,11 @@ Wyvern.EVERY_CHAR = "`1234567890-=qwertyuiop[]asdfghjkl;'zxcvbnm,./QWERTYUIOP{}A
 Wyvern.SyntaxFacts = {}
 
 Wyvern.SyntaxFacts.GetBinaryOperatorPrecedence = function(kind)
-    if kind == Wyvern.SyntaxKind.AsteriskToken or kind == Wyvern.SyntaxKind.SlashToken or kind == Wyvern.SyntaxKind.PercentToken or kind == Wyvern.SyntaxKind.CaretToken or kind == Wyvern.SyntaxKind.AmpersandToken or kind == Wyvern.SyntaxKind.CaretCaretToken or kind == Wyvern.SyntaxKind.GreaterGreaterToken or kind == Wyvern.SyntaxKind.LessLessToken or kind == Wyvern.SyntaxKind.GreaterGreaterGreaterToken or kind == Wyvern.SyntaxKind.PipeToken then
+    if kind == Wyvern.SyntaxKind.CaretToken then
+        return 6
+    end if
+
+    if kind == Wyvern.SyntaxKind.AsteriskToken or kind == Wyvern.SyntaxKind.SlashToken or kind == Wyvern.SyntaxKind.PercentToken or kind == Wyvern.SyntaxKind.AmpersandToken or kind == Wyvern.SyntaxKind.CaretCaretToken or kind == Wyvern.SyntaxKind.GreaterGreaterToken or kind == Wyvern.SyntaxKind.LessLessToken or kind == Wyvern.SyntaxKind.GreaterGreaterGreaterToken or kind == Wyvern.SyntaxKind.PipeToken then
         return 5
     end if
 

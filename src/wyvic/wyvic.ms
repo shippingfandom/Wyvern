@@ -9,6 +9,7 @@ import_code("/lib/wyvern/builtins")		// override=../wyvern-lang/wyv-builtins.ms
 
 import_code("/lib/wyvern/api")			// override=../wyvern-lang/wyv-api.ms
 import_code("/lib/wyvern/compiler")		// override=../wyvern-lang/wyv-compiler.ms
+import_code("/lib/wvyern/interpreter") // override=../wyvern-lang/wyv-interpreter.ms
 // \\\ END WY IMPORT ///
 loadTime = time()
 
@@ -177,7 +178,15 @@ if params.len > 1 then
 	asc = compilation.GlobalScope()
 	astTime = time() - beginAstTime
     if isInterpreting then
-		print("Interpreting is not supported right now.")
+		interpreterResult = compilation.Execute()
+		if interpreterResult.Diagnostics.len > 0 then
+			for diagnostic in interpreterResult.Diagnostics
+				print(CreateDiagnosticString(diagnostic))
+			end for
+		else
+			print(interpreterResult.Result)
+		end if
+		//print("Interpreting is not supported right now.")
         //variables = Wyvern.Dictionary.New()
         //result = compilation.Evaluate(variables)
         //diagnostics = result.Diagnostics

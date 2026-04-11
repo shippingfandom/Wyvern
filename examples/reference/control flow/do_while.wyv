@@ -1,0 +1,4 @@
+let ones: number[] = [];
+do {
+	ones.push(1);
+} while ones.len < 10;

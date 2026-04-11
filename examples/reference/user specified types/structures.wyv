@@ -1,0 +1,23 @@
+struct Vec2 {
+	let x: number;
+	let y: number;
+}
+
+fn Add(a: Vec2, b: Vec2) -> Vec2 {
+	return new Vec2 {
+		x: a.x + b.x,
+		y: a.y + b.y
+	};
+}
+
+let a: Vec2 = new Vec2 {
+	x: 12,
+	y: 3
+};
+let b: Vec2 = new Vec2 {
+	x: 5,
+	y: 6
+};
+
+let c: Vec2 = Add(a, b);
+print([c.x, c.y]); // [17, 9]

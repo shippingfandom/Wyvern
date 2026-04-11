@@ -1,0 +1,7 @@
+fn Triple(n: number = 1) -> number {
+	return n * 3;
+}
+print(Triple());			// 3
+print(Triple(5));			// 15
+let f: reference = Triple;
+print(f(5));				// Also 15

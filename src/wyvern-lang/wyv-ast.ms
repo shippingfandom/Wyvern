@@ -1995,6 +1995,18 @@ Wyvern.Binder.BindNamecall = function(type, syntax)
     end if
 end function
 
+Wyvern.Binder.CheckRelation = function(left, class)
+    if left isa Wyvern.ClassSymbol and class isa Wyvern.ClassSymbol then
+        if left != class then
+            return self.CheckRelation(left, class.Super)
+        else
+            return true
+        end if
+    end if
+
+    return left == class
+end function
+
 Wyvern.Binder.BindNamecallExpression = function(syntax)
     left = self.BindExpression(syntax.Left)
     
@@ -2044,7 +2056,7 @@ Wyvern.Binder.BindNamecallExpression = function(syntax)
                 return Wyvern.BoundErrorExpression.New()
             end if
 
-            if not method.Modifiers.IsPublic and left.Variable != self.Class then
+            if not method.Modifiers.IsPublic and not self.CheckRelation(left.Variable, self.Class) then
                 self.Diagnostics.ReportSymbolIsntPublic(right.Identifier.Location, method.Name)
                 return Wyvern.BoundErrorExpression.New()
             end if
@@ -2057,7 +2069,7 @@ Wyvern.Binder.BindNamecallExpression = function(syntax)
                 return Wyvern.BoundErrorExpression.New()
             end if
 
-            if not property.Modifiers.IsPublic and left.Variable != self.Class then
+            if not property.Modifiers.IsPublic and not self.CheckRelation(left.Variable, self.Class) then
                 self.Diagnostics.ReportSymbolIsntPublic(right.Identifier.Location, property.Name)
                 return Wyvern.BoundErrorExpression.New()
             end if
@@ -2085,7 +2097,7 @@ Wyvern.Binder.BindNamecallExpression = function(syntax)
         end if
 
         actualSymbol = symbol.Symbol
-        if not symbol.Modifiers.IsPublic and left.Type != self.Class then
+        if not symbol.Modifiers.IsPublic and not self.CheckRelation(left.Type, self.Class) then
             self.Diagnostics.ReportSymbolIsntPublic(syntax.Right.Identifier.Location, symbol.Name)
             return Wyvern.BoundErrorExpression.New()
         end if

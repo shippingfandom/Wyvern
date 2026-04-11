@@ -1,11 +1,11 @@
 > [!NOTE]
-> This repository is a fork of the [original, probably discontinued project](https://github.com/GuilhermeBrazilianSamurai/Wyvern) by [H3xad3cimal](https://github.com/GuilhermeBrazilianSamurai).
+> This repository is a fork of the [original, probably discontinued project](https://github.com/GuilhermeBrazilianSamurai/Wyvern) by [Guilherme](https://github.com/GuilhermeBrazilianSamurai).
 > All credit for his hard work belongs to him and only him!
 > I am responsible only for making this README and some other minor things!!!
 
 # Wyvern
 
-A [compiled](https://en.wikipedia.org/wiki/Compiled_language), [statically](https://en.wikipedia.org/wiki/Type_system#Static_type_checking) and [strong](https://en.wikipedia.org/wiki/Type_safety) typed, [inferred](https://en.wikipedia.org/wiki/Type_inference), [object-oriented](https://en.wikipedia.org/wiki/Object-oriented_programming) programming language written in [MiniScript](https://miniscript.org/) by [H3xad3cimal](https://github.com/GuilhermeBrazilianSamurai) for the game [Grey Hack](https://store.steampowered.com/app/605230/Grey_Hack/)!
+A [compiled](https://en.wikipedia.org/wiki/Compiled_language), [statically](https://en.wikipedia.org/wiki/Type_system#Static_type_checking) and [strong](https://en.wikipedia.org/wiki/Type_safety) typed, [inferred](https://en.wikipedia.org/wiki/Type_inference), [object-oriented](https://en.wikipedia.org/wiki/Object-oriented_programming) programming language written in [MiniScript](https://miniscript.org/) by [Guilherme](https://github.com/GuilhermeBrazilianSamurai) for the game [Grey Hack](https://store.steampowered.com/app/605230/Grey_Hack/)!
 
 All of the above probably doesn't tell you a thing so please take a look at the features below 🤭👇
 
@@ -213,7 +213,7 @@ Congratulations! You have installed **wyvic** - the **Wyvern** compiler! 😜
 To compile a program made in **Wyvern**, type `wyvern -c YourAwesomeProgram.wyv --build` 💞
 
 ## Reference
-The best place to learn some of the **Wyvern** programming language is [Handbook](_legacy/notes/Handbook.txt) by **H3xad3cimal**! 🥰
+The best place to learn some of the **Wyvern** programming language is [Handbook](_legacy/notes/Handbook.txt) by **Guilherme**! 🥰
 
 I also highly encourage you to read a [short summary](notes/Reference.md) of the language, which is written in style of **MiniScript** [one-page summary](https://miniscript.org/files/MiniScript-QuickRef.pdf)! 📔
 
@@ -264,7 +264,7 @@ cast< number<number> >(a);
 ```
 
 ## Credits
-**Wyvern** is a project made solely by [H3xad3cimal](https://github.com/GuilhermeBrazilianSamurai)! My special thanks to you, you are awesome! 💖
+**Wyvern** is a project made solely by [Guilherme](https://github.com/GuilhermeBrazilianSamurai)! My special thanks to you, you are awesome! 💖
 
 I would also like to thank these people for making this little addition to it possible 👀
 

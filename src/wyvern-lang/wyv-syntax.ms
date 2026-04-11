@@ -2723,11 +2723,7 @@ Wyvern.Parser.ParseTypeClause = function(useArrow=false)
         kind = Wyvern.SyntaxKind.ColonToken
     end if
 
-    if self.Current().Kind != kind then
-        return null
-    end if
     assignToken = self.MatchToken(kind)
-
     return Wyvern.TypeClauseSyntax.New(assignToken, self.ParseTypeSignature())
 end function
 

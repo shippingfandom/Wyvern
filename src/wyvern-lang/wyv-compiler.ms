@@ -148,9 +148,9 @@ Wyvern.Compiler.CompileCallingAssignmentExpression = function(expression)
 end function
 
 Wyvern.Compiler.CompileVariableExpression = function(expression, noAt=false)
-    if expression.Type isa Wyvern.FunctionReferenceSymbol then
-        return expression.Type.Function.Name
-    end if
+    //if expression.Type isa Wyvern.FunctionReferenceSymbol then
+    //    return expression.Type.Function.Name
+    //end if
     return expression.Variable.Name
 end function
 

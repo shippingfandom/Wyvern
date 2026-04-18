@@ -83,7 +83,7 @@ print("All done! <3");
 ```
 
 ### break & continue
-The **break** statement jumps out of a **while**, **foreach** or **for** loop. The **continue** statement jumps to the top of the loop skipping the rest of the current iteration.
+The **break** statement jumps out of a **while**, **do while**, **foreach** or **for** loop. The **continue** statement jumps to the top of the loop skipping the rest of the current iteration.
 
 ## Data Types
 

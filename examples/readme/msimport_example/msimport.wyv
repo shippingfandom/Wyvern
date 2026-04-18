@@ -7,5 +7,5 @@ msimport "/home/user/math.src" {
     }
 }
 
-const math = Math.New();
+let math: Math = Math.New();
 print([math.Pi(), math.Factorial(5)]);

@@ -25,6 +25,8 @@ Wyvern.Compiler.Init = function(program, root)
     self.SwitchGuard = {}
     self.Root = root
 
+    self.deflower = false
+
     self.Program = program
 end function
 
@@ -147,10 +149,11 @@ Wyvern.Compiler.CompileCallingAssignmentExpression = function(expression)
     return left + " = " + self.CompileExpression(expression.Expression)
 end function
 
-Wyvern.Compiler.CompileVariableExpression = function(expression, noAt=false)
-    if expression.Type isa Wyvern.FunctionReferenceSymbol then
+Wyvern.Compiler.CompileVariableExpression = function(expression)
+    if expression.Type isa Wyvern.FunctionReferenceSymbol and self.deflower then
         return expression.Type.Function.Name
     end if
+
     return expression.Variable.Name
 end function
 
@@ -292,11 +295,19 @@ Wyvern.Compiler.CompileParenthesizedExpression = function(expression)
 end function
 
 Wyvern.Compiler.CompileIndexExpression = function(expression)
-    return self.CompileExpression(expression.Expression) + "[" + self.CompileExpression(expression.Index) + "]"
+    b = self.deflower
+    self.deflower = true
+    r = self.CompileExpression(expression.Expression) + "[" + self.CompileExpression(expression.Index) + "]"
+    self.deflower = b
+    return r
 end function
 
 Wyvern.Compiler.CompileNamecallExpression = function(expression)
-    return self.CompileExpression(expression.Left) + "." + self.CompileExpression(expression.Right, true)
+    b = self.deflower
+    self.deflower = true
+    r = self.CompileExpression(expression.Left) + "." + self.CompileExpression(expression.Right, true)
+    self.deflower = b
+    return r
 end function
 
 Wyvern.Compiler.CompileNewExpression = function(expression)

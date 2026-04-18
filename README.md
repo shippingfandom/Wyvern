@@ -1,11 +1,11 @@
 > [!NOTE]
-> This repository is a fork of the [original, probably discontinued project](https://github.com/GuilhermeBrazilianSamurai/Wyvern) by [H3xad3cimal](https://github.com/GuilhermeBrazilianSamurai).
+> This repository is a fork of the [original project](https://github.com/le-sukhoi/Wyvern) by [Guilherme](https://github.com/le-sukhoi).
 > All credit for his hard work belongs to him and only him!
 > I am responsible only for making this README and some other minor things!!!
 
 # Wyvern
 
-A [compiled](https://en.wikipedia.org/wiki/Compiled_language), [statically](https://en.wikipedia.org/wiki/Type_system#Static_type_checking) and [strong](https://en.wikipedia.org/wiki/Type_safety) typed, [inferred](https://en.wikipedia.org/wiki/Type_inference), [object-oriented](https://en.wikipedia.org/wiki/Object-oriented_programming) programming language written in [MiniScript](https://miniscript.org/) by [H3xad3cimal](https://github.com/GuilhermeBrazilianSamurai) for the game [Grey Hack](https://store.steampowered.com/app/605230/Grey_Hack/)!
+A [compiled](https://en.wikipedia.org/wiki/Compiled_language), [statically](https://en.wikipedia.org/wiki/Type_system#Static_type_checking) and [strong](https://en.wikipedia.org/wiki/Type_safety) typed, [~~inferred~~](https://en.wikipedia.org/wiki/Type_inference), [object-oriented](https://en.wikipedia.org/wiki/Object-oriented_programming) programming language written in [MiniScript](https://miniscript.org/) by [Guilherme](https://github.com/le-sukhoi) for the game [Grey Hack](https://store.steampowered.com/app/605230/Grey_Hack/)!
 
 All of the above probably doesn't tell you a thing so please take a look at the features below 🤭👇
 
@@ -19,11 +19,8 @@ You can look [here](_legacy/examples/) and [here](examples) for more complex thi
 ### Type safety
 **Wyvern** will back you up and prevent compiling if you've made a mistake 🌺
 ```rust
-// Inferred number
-let a = 1;
-
-// Inferred string
-let b = "2";
+let a: number = 1;
+let b: string = "2";
 ```
 ```rust
 // Compilation error!
@@ -71,7 +68,7 @@ class Triangle: Figure {
     }
 
     public override fn Area() -> number {
-        let p = self.Perimeter();
+        let p: number = self.Perimeter();
         return sqrt(p * (p - self._a) * (p - self._b) * (p - self._c));
     }
     public override fn Perimeter() -> number {
@@ -81,7 +78,7 @@ class Triangle: Figure {
         return [self._a, self._b, self._c];
     }
 
-    fn Triangle(a: number, b: number, c: number) {
+    fn Triangle(a: number, b: number, c: number) -> void {
         self._a = a;
         self._b = b;
         self._c = c;
@@ -104,7 +101,7 @@ class Square: Figure {
         return [self._side, self._side, self._side, self._side];
     }
 
-    fn Square(side: number) {
+    fn Square(side: number) -> void {
         self._side = side;
     }
 }
@@ -116,7 +113,7 @@ let figures: Figure[] = [
     new Square(4),
     new Square(13)
 ];
-foreach let figure in figures {
+foreach let figure: Figure in figures {
     print([figure.Area(), figure.Perimeter(), figure.Sides()]);
 }
 ```
@@ -124,9 +121,9 @@ foreach let figure in figures {
 ### MiniScript interoperability
 Everything you know about **MiniScript** applies here! 🥰
 ```rust
-let shell = get_shell();
-let computer = shell.host_computer();
-let file = computer.File("/etc/passwd");
+let shell: shell = get_shell();
+let computer: computer = shell.host_computer();
+let file: file = computer.File("/etc/passwd");
 if file != null {
     file.delete();
 }
@@ -165,7 +162,7 @@ msimport "/home/user/math.src" {
     }
 }
 
-let math = Math.New();
+let math: Math = Math.New();
 print([math.Pi(), math.Factorial(5)]);
 ```
 This allows you to reuse existing code with all the advantages **Wyvern** has to offer! ❤️
@@ -213,7 +210,7 @@ Congratulations! You have installed **wyvic** - the **Wyvern** compiler! 😜
 To compile a program made in **Wyvern**, type `wyvern -c YourAwesomeProgram.wyv --build` 💞
 
 ## Reference
-The best place to learn some of the **Wyvern** programming language is [Handbook](_legacy/notes/Handbook.txt) by **H3xad3cimal**! 🥰
+The best place to learn some of the **Wyvern** programming language is [Handbook](_legacy/notes/Handbook.txt) by **Guilherme**! 🥰
 
 I also highly encourage you to read a [short summary](notes/Reference.md) of the language, which is written in style of **MiniScript** [one-page summary](https://miniscript.org/files/MiniScript-QuickRef.pdf)! 📔
 
@@ -228,24 +225,6 @@ let a: string;
 
 // Runtime error!
 print(cast<number>(a));
-```
-
-### Compilation crash when compiling a function with an untyped parameter
-If you attempt to compile something like this
-```rust
-fn Print(message) {
-	print(message);
-}
-```
-It will result in a crash
-```
-Runtime Error: Type Error (while attempting to look up Kind) [ast line 1577]
-```
-Always type your function parameters!
-```rust
-fn Print(message: any) {
-	print(message);
-}
 ```
 
 ### Compilation error when casting to nested type
@@ -264,7 +243,7 @@ cast< number<number> >(a);
 ```
 
 ## Credits
-**Wyvern** is a project made solely by [H3xad3cimal](https://github.com/GuilhermeBrazilianSamurai)! My special thanks to you, you are awesome! 💖
+**Wyvern** is a project made solely by [Guilherme](https://github.com/le-sukhoi)! My special thanks to you, you are awesome! 💖
 
 I would also like to thank these people for making this little addition to it possible 👀
 

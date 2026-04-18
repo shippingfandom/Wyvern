@@ -202,22 +202,30 @@ let c: Vec2 = Add(a, b);
 print([c.x, c.y]); // [17, 9]
 ```
 
+### Enumerations
+An **enum** is a fixed set of named number constants, starting from **0** unless specified otherwise.
+
+```rust
+enum ErrorCode {
+    FILE_MISSING,
+    INCORRECT_PASSWORD = 13,
+    SOMETHING_ELSE
+}
+
+let codeA: ErrorCode = ErrorCode.FILE_MISSING;
+let codeB: ErrorCode = ErrorCode.INCORRECT_PASSWORD;
+let codeC: ErrorCode = ErrorCode.SOMETHING_ELSE;
+print([codeA, codeB, codeC]); // [0, 13, 14]
+```
+
 ### Classes & Objects
 A **class** is a blueprint for creating objects — instances that bundle data and behavior. Members with **public** modifier are accessible from anywhere, while **private** members are hidden within the **class** and it's children. Members with **static** modifier belong to the **class** itself, not to any object instance. Methods that are **virtual** can be overridden in the derived **classes**, where **override** explicitly replaces the base **class** implementation. The **class** can inherit from no more than one **class**.
 
 To construct an instance of the **class**, use the **new** keyword.
 
-To call the constructor of the parent **class**, define this **contract**:
-```rust
-contract IUnsafeConstructable {
-    public let __constructor__: reference;
-    public let __new__: reference;
-}
-```
-Then cast **super** and call the constructor as follows:
-```rust
-unsafe_cast<IUnsafeConstructable>(super).__constructor__(a1, a2, ...);
-```
+To access methods and properties of the parent **class**, use **super** keyword.
+
+To call the constructor of the parent **class**, call **super.\_\_constructor\_\_(a1, a2, a3, ...)**.
 
 Here is a complete **classes & objects** usage example.
 
@@ -228,9 +236,9 @@ class Entity {
 	public fn Speed() -> number {
 		return self._speed;
 	}
-	public virtual fn Talk();
+	public virtual fn Talk() -> void;
 
-	fn Entity(speed: number) {
+	fn Entity(speed: number) -> void {
 		self._speed = speed;
 	}
 
@@ -238,12 +246,12 @@ class Entity {
 }
 
 class Cat: Entity {
-	public override fn Talk() {
+	public override fn Talk() -> void {
 		print("Meow :3");
 	}
 
-	override fn Cat() {
-        unsafe_cast<IUnsafeConstructable>(super).__constructor__(108111118101);
+	fn Cat() -> void {
+        super.__constructor__(108111118101);
 	}
 
     public static override fn Summon() -> Entity {
@@ -252,12 +260,12 @@ class Cat: Entity {
 }
 
 class Sentient: Entity {
-	public override fn Talk() {
+	public override fn Talk() -> void {
 		print("Hello, sentient being!");
 	}
 
-	override fn Sentient() {
-		unsafe_cast<IUnsafeConstructable>(super).__constructor__(1337);
+	fn Sentient() -> void {
+		super.__constructor__(1337);
 	}
 
     public static override fn Summon() -> Entity {
@@ -277,17 +285,17 @@ A **contract** defines a set of methods and properties that a **class** must imp
 
 ```rust
 contract Printable {
-	public fn Print();
+	public fn Print() -> void;
 }
 
 class Figure $ Printable {
-	public fn Print() {
+	public fn Print() -> void {
 		print("Figure!");
 	}
 }
 
 class Entity $ Printable {
-	public fn Print() {
+	public fn Print() -> void {
 		print("Entity!");
 	}
 }

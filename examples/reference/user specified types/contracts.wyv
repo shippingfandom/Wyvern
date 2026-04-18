@@ -1,15 +1,15 @@
 contract Printable {
-	public fn Print();
+	public fn Print() -> void;
 }
 
 class Figure $ Printable {
-	public fn Print() {
+	public fn Print() -> void {
 		print("Figure!");
 	}
 }
 
 class Entity $ Printable {
-	public fn Print() {
+	public fn Print() -> void {
 		print("Entity!");
 	}
 }

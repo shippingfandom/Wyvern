@@ -202,6 +202,22 @@ let c: Vec2 = Add(a, b);
 print([c.x, c.y]); // [17, 9]
 ```
 
+### Enumerations
+An **enum** is a fixed set of named number constants, starting from **0** unless specified otherwise.
+
+```rust
+enum ErrorCode {
+    FILE_MISSING,
+    INCORRECT_PASSWORD = 13,
+    SOMETHING_ELSE
+}
+
+let codeA: ErrorCode = ErrorCode.FILE_MISSING;
+let codeB: ErrorCode = ErrorCode.INCORRECT_PASSWORD;
+let codeC: ErrorCode = ErrorCode.SOMETHING_ELSE;
+print([codeA, codeB, codeC]); // [0, 13, 14]
+```
+
 ### Classes & Objects
 A **class** is a blueprint for creating objects — instances that bundle data and behavior. Members with **public** modifier are accessible from anywhere, while **private** members are hidden within the **class** and it's children. Members with **static** modifier belong to the **class** itself, not to any object instance. Methods that are **virtual** can be overridden in the derived **classes**, where **override** explicitly replaces the base **class** implementation. The **class** can inherit from no more than one **class**.
 

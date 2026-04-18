@@ -1,0 +1,10 @@
+enum ErrorCode {
+    FILE_MISSING,
+    INCORRECT_PASSWORD = 13,
+    SOMETHING_ELSE
+}
+
+let codeA: ErrorCode = ErrorCode.FILE_MISSING;
+let codeB: ErrorCode = ErrorCode.INCORRECT_PASSWORD;
+let codeC: ErrorCode = ErrorCode.SOMETHING_ELSE;
+print([codeA, codeB, codeC]); // [0, 13, 14]

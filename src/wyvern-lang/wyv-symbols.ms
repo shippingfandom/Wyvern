@@ -116,7 +116,7 @@ end function
 Wyvern.TypeSymbols = {}
 // System Types
 Wyvern.TypeSymbols.Error      = Wyvern.TypeSymbol.New("?", false)
-Wyvern.TypeSymbols.Void       = Wyvern.TypeSymbol.New("void", false)
+Wyvern.TypeSymbols.Void       = Wyvern.TypeSymbol.New("void", true)
 
 Wyvern.TypeSymbols.Reference  = Wyvern.TypeSymbol.New("reference")
 

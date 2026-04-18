@@ -22,7 +22,7 @@ class Triangle: Figure {
     }
 
     public override fn Area() -> number {
-        let p = self.Perimeter();
+        let p: number = self.Perimeter();
         return sqrt(p * (p - self._a) * (p - self._b) * (p - self._c));
     }
     public override fn Perimeter() -> number {
@@ -32,7 +32,7 @@ class Triangle: Figure {
         return [self._a, self._b, self._c];
     }
 
-    fn Triangle(a: number, b: number, c: number) {
+    fn Triangle(a: number, b: number, c: number) -> void {
         self._a = a;
         self._b = b;
         self._c = c;
@@ -55,7 +55,7 @@ class Square: Figure {
         return [self._side, self._side, self._side, self._side];
     }
 
-    fn Square(side: number) {
+    fn Square(side: number) -> void {
         self._side = side;
     }
 }
@@ -67,6 +67,6 @@ let figures: Figure[] = [
     new Square(4),
     new Square(13)
 ];
-foreach let figure in figures {
+foreach let figure: Figure in figures {
     print([figure.Area(), figure.Perimeter(), figure.Sides()]);
 }

@@ -1,5 +1,5 @@
 # Welcome to Wyvern!
-Wyvern is a compiled, statically and strong typed, inferred, object-oriented programming language that has many additional features over MiniScript.
+Wyvern is a compiled, statically and strong typed, ~~inferred~~, object-oriented programming language that has many additional features over MiniScript.
 
 ## Syntax
 Always end statements with a *semicolon*.
